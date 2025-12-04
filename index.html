@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <title>Nano PPT Designer · Pro Dashboard</title>
+  <style>
+    /* 保持您满意的 Vercel/Linear 风格 UI */
+    :root {
+      --bg-dark: #0f1525;
+      --panel-bg: rgba(22, 28, 45, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --accent: #00d2ff;
+      --text-main: #e0e0e0;
+      --text-muted: #8890a0;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    
+    body {
+      margin: 0;
+      color: var(--text-main);
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 50%, rgba(58, 123, 213, 0.08), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(0, 210, 255, 0.05), transparent 25%);
+      font-family: "PingFang SC", "Helvetica Neue", Helvetica, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .app-layout {
+      display: grid;
+      grid-template-columns: 320px 360px 1fr; 
+      gap: 20px;
+      height: 100vh;
+      padding: 20px;
+      max-width: 2400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1100px) {
+      .app-layout { grid-template-columns: 340px 1fr; overflow-y: auto; height: auto; }
+      .col-left { grid-column: 1 / -1; order: 2; height: 500px !important; } 
+      .col-center { order: 1; }
+      .col-right { order: 3; height: 600px !important; }
+    }
+    @media (max-width: 800px) {
+      .app-layout { display: flex; flex-direction: column; padding: 12px; gap: 16px; }
+      .col-left, .col-center, .col-right { height: auto !important; max-height: none; overflow: visible; }
+    }
+
+    .panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .panel-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--glass-border);
+      background: rgba(0,0,0,0.2);
+    }
+    .panel-header h2 { margin: 0; font-size: 15px; font-weight: 600; color: #fff; letter-spacing: 0.5px; }
+    
+    .panel-body {
+      padding: 16px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* 左栏 */
+    .col-left { height: 100%; }
+    .section-title { font-size: 13px; color: var(--accent); margin-bottom: 10px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+    
+    .style-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .style-card {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: 0.2s;
+      background: #000;
+    }
+    .style-card.active { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.2); }
+    .style-card.loading { opacity: 0.5; cursor: wait; } /* 加载状态 */
+    .style-card img { width: 100%; height: 75px; object-fit: cover; display: block; opacity: 0.7; transition: 0.3s; }
+    .style-card:hover img { opacity: 1; }
+    .style-card.active img { opacity: 1; }
+    
+    .style-name {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.7); color: #fff;
+      font-size: 11px; padding: 4px; text-align: center;
+    }
+    .style-actions { position: absolute; top: 4px; right: 4px; display: flex; gap: 4px; }
+    .icon-btn {
+      width: 20px; height: 20px; background: rgba(0,0,0,0.6); border-radius: 4px;
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; cursor: pointer; transition: 0.2s; border: 1px solid rgba(255,255,255,0.2);
+    }
+    .icon-btn:hover { background: var(--accent); color: #000; }
+
+    .divider-text { text-align: center; font-size: 12px; color: var(--text-muted); margin: -10px 0 10px; font-style: italic; }
+
+    .upload-area {
+      border: 1px dashed var(--glass-border);
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .upload-area:hover { border-color: var(--text-muted); background: rgba(0,0,0,0.3); }
+    .upload-area.active { border-color: var(--accent); background: rgba(0, 210, 255, 0.05); }
+    .thumbs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .thumb { width: 60px; height: 60px; border-radius: 6px; overflow: hidden; position: relative; border: 1px solid var(--glass-border); }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb .del { position: absolute; inset: 0; background: rgba(0,0,0,0.6); color: #fff; display: flex; align-items: center; justify-content: center; opacity: 0; cursor: pointer; }
+    .thumb:hover .del { opacity: 1; }
+
+    /* 中栏 */
+    .col-center { height: 100%; }
+    label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+    input[type="text"], textarea, select {
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--glass-border);
+      color: #fff;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+      outline: none;
+      transition: 0.3s;
+    }
+    textarea { min-height: 220px; resize: vertical; line-height: 1.6; }
+    input:focus, textarea:focus, select:focus { border-color: var(--accent); background: rgba(0,0,0,0.5); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .key-section { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-top: auto; }
+    .key-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; line-height: 1.4; } 
+    .key-input-row { display: flex; gap: 6px; }
+    .btn-sm { 
+      padding: 0 14px; height: 34px; font-size: 13px;
+      background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); 
+      color: #ccc; border-radius: 6px; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    }
+    .btn-sm:hover { background: rgba(255,255,255,0.2); }
+
+    /* 生成按钮：简洁现代 */
+    .btn-generate {
+      margin-top: 20px;
+      background: var(--accent);
+      color: #0f1525;
+      border: none;
+      height: 48px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: none; 
+    }
+    .btn-generate:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-generate:active { transform: translateY(1px); }
+    .btn-generate[disabled] { background: #333; color: #777; cursor: not-allowed; transform: none; filter: none; }
+
+    /* 右栏 */
+    .col-right { height: 100%; }
+    .status-bar { color: var(--accent); font-size: 13px; text-align: center; min-height: 20px; }
+    .result-group { margin-bottom: 24px; animation: fadeIn 0.5s ease; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; }
+    .result-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+    .grid-imgs { display: flex; flex-wrap: wrap; gap: 12px; }
+    .img-card {
+      height: 160px; 
+      border-radius: 8px; overflow: hidden; border: 1px solid var(--glass-border);
+      position: relative; background: #000; transition: 0.2s;
+    }
+    .img-card:hover { transform: translateY(-3px); border-color: var(--text-muted); }
+    .img-card img { height: 100%; width: auto; display: block; }
+    .img-actions {
+      position: absolute; inset: 0; background: rgba(0,0,0,0.6);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      opacity: 0; transition: 0.2s;
+    }
+    .img-card:hover .img-actions { opacity: 1; }
+    .action-btn {
+      width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.2);
+      border: none; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .action-btn:hover { background: var(--accent); color: #000; }
+
+    /* Lightbox */
+    .lightbox { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.95); display: none; flex-direction: column; }
+    .lightbox.show { display: flex; }
+    .lb-header { padding: 15px 20px; display: flex; justify-content: space-between; color: #aaa; }
+    .lb-content { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .lb-content img { max-width: 100%; max-height: 100%; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+    .lb-footer { padding: 20px; display: flex; justify-content: center; gap: 20px; }
+    
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 18px; height: 18px; border: 2px solid rgba(0,0,0,0.1); border-top-color: #0f1525; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
+    .btn-copy { background: transparent; border: 1px solid #444; color: #888; border-radius: 4px; padding: 2px 6px; font-size: 11px; cursor: pointer; }
+    .btn-copy:hover { border-color: var(--accent); color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<div class="app-layout">
+  <!-- 左栏：资源选择 -->
+  <aside class="panel col-left">
+    <div class="panel-header"><h2>1. 视觉参考 (Reference)</h2></div>
+    <div class="panel-body">
+      <div>
+        <div class="section-title">PPT 风格预设<span style="font-weight:normal; font-size:11px; opacity:0.7">点击加载参考库</span></div>
+        <div class="style-grid" id="styleList"></div>
+      </div>
+      <div class="divider-text">- 或者 -</div>
+      <div>
+        <div class="section-title">自定义参考图<span style="font-weight:normal; font-size:11px; opacity:0.7">Logo/布局</span></div>
+        <div class="upload-area" id="dropArea">
+          <div style="font-size: 24px; margin-bottom: 8px; color: var(--text-muted);">+</div>
+          <div style="font-size: 12px; color: var(--text-muted);">点击或拖入图片<br>(自动取消风格)</div>
+          <input id="fileInput" type="file" accept="image/*" multiple hidden>
+        </div>
+        <div id="thumbs" class="thumbs"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 中栏：控制台 -->
+  <main class="panel col-center">
+    <div class="panel-header"><h2>2. 描述与配置 (Prompt)</h2></div>
+    <div class="panel-body">
+      <div>
+        <label>画面描述</label>
+        <textarea id="prompt" placeholder="例如：2025年战略规划，科技感数据大屏，深色背景..."></textarea>
+      </div>
+      <div class="form-row">
+        <div>
+          <label>画幅比例</label>
+          <select id="ratioSelect">
+            <option value="">auto (默认)</option>
+            <option value="16:9" selected>16:9 (PPT标准)</option>
+            <option value="4:3">4:3 (传统PPT)</option>
+            <option value="1:1">1:1 (正方形)</option>
+            <option value="9:16">9:16 (手机海报)</option>
+            <option value="3:4">3:4</option>
+            <option value="3:2">3:2</option>
+            <option value="2:3">2:3</option>
+            <option value="5:4">5:4</option>
+            <option value="4:5">4:5</option>
+            <option value="21:9">21:9 (宽屏)</option>
+          </select>
+        </div>
+        <div>
+          <label>分辨率</label>
+          <select id="sizeSelect">
+            <option value="1K">1K 标准</option>
+            <option value="2K">2K 高清</option>
+            <option value="4K" selected>4K 超清</option>
+          </select>
+        </div>
+      </div>
+      <div style="flex:1"></div> 
+      <div class="status-bar" id="status"></div>
+      <div class="key-section">
+        <div class="key-label">API Key (联系作者微信 <b>duge360</b> 获取)</div>
+        <div class="key-input-row">
+          <input type="text" id="userKey" placeholder="sk-..." style="height:34px;">
+          <button class="btn-sm" id="saveKey">保存</button>
+        </div>
+      </div>
+      <button class="btn-generate" id="go">
+        <span class="spinner" id="spin"></span>
+        <span id="btnText">立即生成</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- 右栏：画廊 -->
+  <aside class="panel col-right">
+    <div class="panel-header">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <h2>3. 生成结果 (History)</h2>
+        <span style="font-size:12px; color:var(--text-muted)">预览/下载</span>
+      </div>
+    </div>
+    <div class="panel-body" id="gallery"></div>
+  </aside>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-header">
+    <span id="lbInfo">Preview</span>
+    <span style="cursor:pointer" onclick="closeLightbox()">✕ 关闭</span>
+  </div>
+  <div class="lb-content" onclick="closeLightbox()">
+    <img id="lbImg" src="" onclick="event.stopPropagation()">
+  </div>
+  <div class="lb-footer">
+    <button class="btn-sm" onclick="downloadCurrent()" id="lbDownBtn" style="display:none">下载原图</button>
+  </div>
+</div>
+
+<script>
+;(() => {
+  // ========================================================
+  // 🟢 风格配置区 (维护这里)
+  // preview: 网站上展示的预览图 (1张)
+  // refs:    幕后发送给 AI 的参考图片组 (多张，建议放在子文件夹)
+  // ========================================================
+  const PPT_STYLES = [
+    {
+      id: 'tech_blue',
+      title: '科技商务',
+      preview: './styles/tech/preview.png', 
+      refs: [
+          './styles/tech/ref1.png', 
+          './styles/tech/ref2.png',
+          './styles/tech/ref3.png', 
+          './styles/tech/ref4.png'
+      ],
+      suffix: '。---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：请帮用户生成PPT单页截图，用户会把这个图片直接插入到PPT里，如果用户没有说明，默认使用中文。你需要参考风格图的颜色与色彩风格，在此基础上结合用户输入的提示词生成PPT，用平面设计专家的角度，采用美观的图标以及紧凑的布局，遵循最佳的平面设计原理。请你直接生成PPT单页截图，边缘不要有多余的边框或者是白边，4k分辨率当前需要生成的页面内容：如果用户的提示词非常详实，直接使用用户提供的内容来生成PPT；如果用户的提示词过于简单，不足以生成紧凑、内容充实的PPT，请先使用你的专业知识完善PPT的主题内容，再生成最终的PPT。无论哪种场景，都要完全使用用户提供的数据和专业名词，不要自己编造数据。'
+    },
+    {
+      id: 'minimal_white',
+      title: '极简白金',
+      preview: './styles/minimal/preview.jpg', 
+      refs: [
+          './styles/minimal/ref1.jpg',
+          './styles/minimal/ref2.jpg'
+      ],
+      suffix: ', (clean minimalist ppt slide:1.4), bright white office background, soft lighting, golden accent lines, vast negative space for text, professional'
+    },
+    {
+      id: 'creative_gradient',
+      title: '创意渐变',
+      preview: './styles/creative/preview.jpg', 
+      refs: [
+        './styles/creative/ref1.jpg'
+      ],
+      suffix: ', (vibrant fluid gradient background:1.3), abstract shapes, colorful liquid mesh, modern art style, purple and pink hues, creative design'
+    },
+    {
+      id: 'china_red',
+      title: '国潮大气',
+      preview: './styles/china/preview.jpg', 
+      refs: [
+        './styles/china/ref1.jpg',
+        './styles/china/ref2.jpg'
+      ],
+      suffix: ', (Chinese traditional style:1.4), red and gold, mountains, clouds pattern, grand atmosphere, cultural heritage'
+    }
+  ];
+
+  // ================= 基础配置 =================
+  const PUBLIC_R2_DOMAIN = 'https://cdn.gordensun.com/bananaproimage'; 
+  const ENDPOINT = 'https://hk-api.gptbest.vip/v1/images/generations';
+  const MODEL = 'nano-banana-2'; 
+  const STORE_KEY = 'nb_ppt_v3:key';
+
+  // 状态变量
+  let activeCustomImages = [];   // 用户手动上传的 (Base64)
+  let activeStyleImages = [];    // 选中风格自动加载的 (Base64)
+  let currentStyle = null;       // 当前选中风格对象
+  let lbUrl = '';
+
+  // UI
+  const ui = {
+    prompt: document.getElementById('prompt'),
+    ratio: document.getElementById('ratioSelect'),
+    size: document.getElementById('sizeSelect'),
+    key: document.getElementById('userKey'),
+    saveKey: document.getElementById('saveKey'),
+    styleList: document.getElementById('styleList'),
+    dropArea: document.getElementById('dropArea'),
+    fileInput: document.getElementById('fileInput'),
+    thumbs: document.getElementById('thumbs'),
+    go: document.getElementById('go'),
+    btnText: document.getElementById('btnText'),
+    spin: document.getElementById('spin'),
+    status: document.getElementById('status'),
+    gallery: document.getElementById('gallery'),
+    lb: document.getElementById('lightbox'),
+    lbImg: document.getElementById('lbImg'),
+    lbDownBtn: document.getElementById('lbDownBtn')
+  };
+
+  ui.key.value = localStorage.getItem(STORE_KEY) || '';
+
+  // 渲染风格列表
+  ui.styleList.innerHTML = PPT_STYLES.map(s => `
+    <div class="style-card" id="style-${s.id}" onclick="selectStyle('${s.id}')">
+      <img src="${s.preview}" onerror="this.src='https://placehold.co/300x168/222/999?text=${s.title}'">
+      <div class="style-actions">
+        <div class="icon-btn" onclick="event.stopPropagation(); viewLarge('${s.preview}')" title="查看预览大图">🔍</div>
+      </div>
+      <div class="style-name">${s.title}</div>
+    </div>
+  `).join('');
+
+  // ================= 逻辑：风格选择 (自动加载Refs) =================
+  window.selectStyle = async (id) => {
+    // 1. 如果点击已选中的，则取消
+    if (currentStyle && currentStyle.id === id) {
+      currentStyle = null;
+      activeStyleImages = [];
+      document.querySelectorAll('.style-card').forEach(c => c.classList.remove('active'));
+      msg('已取消风格');
+      return;
+    }
+
+    // 2. 互斥：清空自定义上传
+    activeCustomImages = [];
+    renderThumbs(); // 清空上传区域显示
+    ui.dropArea.classList.remove('active');
+
+    // 3. 选中 UI
+    currentStyle = PPT_STYLES.find(s => s.id === id);
+    document.querySelectorAll('.style-card').forEach(c => c.classList.remove('active'));
+    const card = document.getElementById(`style-${id}`);
+    card.classList.add('active');
+    
+    // 4. 异步加载该风格的 Ref 图片
+    msg('正在加载风格参考图...', false);
+    card.classList.add('loading');
+    
+    try {
+      // 并行下载所有参考图并转 Base64
+      const promises = currentStyle.refs.map(url => urlToBase64(url));
+      activeStyleImages = await Promise.all(promises);
+      msg(`风格 [${currentStyle.title}] 已加载 (${activeStyleImages.length} 张参考图)`);
+    } catch (e) {
+      console.error(e);
+      msg('加载参考图失败，请检查路径', true);
+      activeStyleImages = [];
+    } finally {
+      card.classList.remove('loading');
+    }
+  };
+
+  // ================= 逻辑：自定义上传 (互斥) =================
+  ui.dropArea.onclick = () => ui.fileInput.click();
+  ui.fileInput.onchange = (e) => handleFiles(e.target.files);
+  ui.dropArea.ondragover = (e) => { e.preventDefault(); ui.dropArea.style.background = 'rgba(255,255,255,0.1)'; };
+  ui.dropArea.ondragleave = (e) => { e.preventDefault(); ui.dropArea.style.background = ''; };
+  ui.dropArea.ondrop = (e) => { e.preventDefault(); ui.dropArea.style.background = ''; handleFiles(e.dataTransfer.files); };
+
+  async function handleFiles(files) {
+    const list = Array.from(files).filter(f => f.type.startsWith('image/'));
+    if(!list.length) return;
+
+    // 互斥：取消风格
+    currentStyle = null;
+    activeStyleImages = [];
+    document.querySelectorAll('.style-card').forEach(c => c.classList.remove('active'));
+
+    if(activeCustomImages.length + list.length > 3) return msg('最多上传 3 张', true);
+    for(let f of list) {
+      activeCustomImages.push(await fileToBase64(f));
+    }
+    renderThumbs();
+    ui.dropArea.classList.add('active');
+    msg(`已加载自定义参考图 (${activeCustomImages.length} 张)`);
+  }
+
+  function renderThumbs() {
+    ui.thumbs.innerHTML = activeCustomImages.map((src, i) => `
+      <div class="thumb"><img src="${src}"><div class="del" onclick="removeThumb(${i})">✕</div></div>
+    `).join('');
+    if(activeCustomImages.length === 0) ui.dropArea.classList.remove('active');
+  }
+
+  window.removeThumb = (i) => { event.stopPropagation(); activeCustomImages.splice(i, 1); renderThumbs(); };
+
+
+  // ================= 核心生成 =================
+  ui.saveKey.onclick = () => { localStorage.setItem(STORE_KEY, ui.key.value.trim()); msg('Key 已保存'); };
+
+  ui.go.onclick = async () => {
+    const promptRaw = ui.prompt.value.trim();
+    const key = ui.key.value.trim();
+    if(!key) return msg('请填写 Key', true);
+    if(!promptRaw && !currentStyle && activeCustomImages.length === 0) return msg('请填写描述或选择一种参考', true);
+
+    // 1. 确定 Prompt
+    let finalPrompt = promptRaw;
+    let usedStyleName = '自定义';
+    if (currentStyle) {
+      finalPrompt += currentStyle.suffix;
+      usedStyleName = currentStyle.title;
+    } else if (!promptRaw && activeCustomImages.length > 0) {
+      finalPrompt = "high quality slide background";
+    }
+
+    // 2. 确定使用哪组参考图 (互斥逻辑已保证 activeStyleImages 和 activeCustomImages 不会同时存在)
+    const imagesToSend = currentStyle ? activeStyleImages : activeCustomImages;
+
+    setLoading(true);
+    msg(`正在设计 [${usedStyleName}] 风格...`);
+
+    try {
+      const payload = {
+        model: MODEL,
+        prompt: finalPrompt,
+        aspect_ratio: ui.ratio.value || "16:9",
+        image_size: ui.size.value
+      };
+      
+      // 如果有图片，加入 Payload
+      if (imagesToSend.length > 0) {
+        payload.image = imagesToSend;
+      }
+
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+        body: JSON.stringify(payload)
+      });
+
+      if(!res.ok) {
+        let errStr = `Error ${res.status}`;
+        try { const j = await res.json(); if(j.error && j.error.message) errStr = j.error.message; } catch(e){}
+        throw new Error(errStr);
+      }
+
+      const data = await res.json();
+      const urls = (data.data || []).map(i => fixR2Url(i.url));
+      if(urls.length) {
+        msg('设计完成');
+        addGallery(urls, finalPrompt);
+      } else {
+        throw new Error('未返回图片');
+      }
+    } catch(err) {
+      console.error(err);
+      msg(err.message, true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ================= Utils =================
+  function fixR2Url(url) {
+    if(!url || !PUBLIC_R2_DOMAIN) return url;
+    try {
+      const u = new URL(url);
+      if(u.hostname.includes('r2.cloudflarestorage.com')) {
+        return PUBLIC_R2_DOMAIN.replace(/\/$/, '') + u.pathname.replace('/bananaproimage/', '/');
+      }
+    } catch(e){}
+    return url;
+  }
+
+  function setLoading(ing) {
+    ui.go.disabled = ing;
+    ui.spin.style.display = ing ? 'block' : 'none';
+    ui.btnText.textContent = ing ? 'AI 绘制中...' : '立即生成';
+  }
+
+  function msg(text, err=false) {
+    ui.status.textContent = text;
+    ui.status.style.color = err ? '#ff6b6b' : 'var(--accent)';
+  }
+
+  function addGallery(urls, prompt) {
+    const time = new Date().toLocaleTimeString();
+    const html = `
+      <div class="result-group">
+        <div class="result-meta">
+          <span>${time}</span>
+          <button class="btn-copy" onclick="copyTxt(this, '${prompt.replace(/"/g, '&quot;')}')">复制 Prompt</button>
+        </div>
+        <div class="grid-imgs">
+          ${urls.map(url => `
+            <div class="img-card">
+              <img src="${url}" loading="lazy" onclick="viewLarge('${url}', true)">
+              <div class="img-actions">
+                <button class="action-btn" onclick="viewLarge('${url}', true)" title="预览">👁</button>
+                <button class="action-btn" onclick="download('${url}')" title="下载">↓</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    ui.gallery.insertAdjacentHTML('afterbegin', html);
+  }
+
+  // Lightbox
+  window.viewLarge = (url, showDownload = false) => {
+    lbUrl = url;
+    ui.lbImg.src = url;
+    ui.lb.classList.add('show');
+    ui.lbDownBtn.style.display = showDownload ? 'block' : 'none';
+  };
+  window.closeLightbox = () => ui.lb.classList.remove('show');
+  window.downloadCurrent = () => { if(lbUrl) download(lbUrl); };
+  window.download = async (url) => {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `ppt-${Date.now()}.png`;
+      document.body.appendChild(a); a.click(); a.remove();
+    } catch(e) { window.open(url, '_blank'); }
+  };
+  window.copyTxt = (btn, txt) => {
+    navigator.clipboard.writeText(txt);
+    const old = btn.innerText; btn.innerText = '已复制'; setTimeout(() => btn.innerText = old, 1500);
+  };
+
+  // Base64 Helpers
+  const fileToBase64 = f => new Promise((r) => { const reader = new FileReader(); reader.onload = () => r(reader.result); reader.readAsDataURL(f); });
+  
+  // 新增：将 URL 图片转换为 Base64 (用于风格参考图)
+  const urlToBase64 = async (url) => {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    return await fileToBase64(blob);
+  };
+
+})();
+</script>
+</body>
+</html>
