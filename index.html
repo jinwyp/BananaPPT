@@ -56,6 +56,12 @@
     @media (max-width: 800px) {
       .app-layout { display: flex; flex-direction: column; padding: 12px; gap: 16px; }
       .col-left, .col-center, .col-right { height: auto !important; max-height: none; overflow: visible; }
+      /* --- 修复开始：强制重置手机端显示顺序 --- */
+      /* 让第1部分(风格选择)排在最前，第2部分(输入)在中间，第3部分(结果)在最后 */
+      .col-left { order: 1; }
+      .col-center { order: 2; }
+      .col-right { order: 3; }
+      /* --- 修复结束 --- */
     }
 
     .panel {
