@@ -1425,27 +1425,40 @@
             // 尝试多种方式提取图片URL
             let urls = [];
 
-            // 方式1: data.data.data 嵌套结构 (实际API格式)
-            if (data.data && data.data.data && Array.isArray(data.data.data) && data.data.data.length > 0) {
+            // 方式1: data.data.data.data 四层嵌套 (实际API返回格式)
+            // 结构: { code, data: { status, data: { data: [{ url }] } } }
+            if (data.data && data.data.data && data.data.data.data &&
+              Array.isArray(data.data.data.data) && data.data.data.data.length > 0) {
+              urls = data.data.data.data.map(i => {
+                if (i.url) return fixR2Url(i.url);
+                if (i.b64_json && i.b64_json !== '') return 'data:image/png;base64,' + i.b64_json;
+                return null;
+              }).filter(u => u !== null);
+              console.log('从 data.data.data.data 提取到URL:', urls);
+            }
+
+            // 方式2: data.data.data 三层嵌套
+            if (urls.length === 0 && data.data && data.data.data &&
+              Array.isArray(data.data.data) && data.data.data.length > 0) {
               urls = data.data.data.map(i => {
                 if (i.url) return fixR2Url(i.url);
-                if (i.b64_json) return 'data:image/png;base64,' + i.b64_json;
+                if (i.b64_json && i.b64_json !== '') return 'data:image/png;base64,' + i.b64_json;
                 return null;
               }).filter(u => u !== null);
               console.log('从 data.data.data 提取到URL:', urls);
             }
 
-            // 方式2: data.data 是数组 (flat结构)
+            // 方式3: data.data 是数组 (flat结构)
             if (urls.length === 0 && data.data && Array.isArray(data.data) && data.data.length > 0) {
               urls = data.data.map(i => {
                 if (i.url) return fixR2Url(i.url);
-                if (i.b64_json) return 'data:image/png;base64,' + i.b64_json;
+                if (i.b64_json && i.b64_json !== '') return 'data:image/png;base64,' + i.b64_json;
                 return null;
               }).filter(u => u !== null);
               console.log('从 data.data 提取到URL:', urls);
             }
 
-            // 方式3: data 直接包含 url
+            // 方式4: data 直接包含 url
             if (urls.length === 0 && data.url) {
               urls = [fixR2Url(data.url)];
             }
@@ -1647,24 +1660,31 @@
       }
 
       function addGallery(urls, prompt) {
+        console.log('addGallery 被调用，URLs:', urls);
+        if (!urls || urls.length === 0) {
+          console.warn('addGallery: 没有图片URL');
+          return;
+        }
         const time = new Date().toLocaleTimeString();
         const html = `
       <div class="result-group">
         <div class="result-meta">
           <span>${time}</span>
-          <button class="btn-copy" onclick="copyTxt(this, '${prompt.replace(/"/g, '&quot;')}')">复制 Prompt</button>
+          <button class="btn-copy" onclick="copyTxt(this, '${prompt.replace(/"/g, '&quot;').replace(/'/g, "\\'")}')">复制 Prompt</button>
         </div>
         <div class="grid-imgs">
           ${urls.map(url => `
             <div class="img-card" onclick="viewLarge('${url}', true)">
-              <img src="${url}" loading="lazy">
+              <img src="${url}" loading="lazy" onerror="console.error('图片加载失败:', '${url}')">
               <button class="btn-dl-overlay" onclick="event.stopPropagation(); download('${url}')">下载</button>
             </div>
           `).join('')}
         </div>
       </div>
     `;
+        console.log('准备插入的HTML:', html.substring(0, 500) + '...');
         ui.gallery.insertAdjacentHTML('afterbegin', html);
+        console.log('图片已添加到gallery');
       }
 
       // Lightbox
