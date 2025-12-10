@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
@@ -13,7 +14,7 @@
          ========================================================================= */
 
       /* 👉 方案 2：黑曜石金 (高端黑金) - 纯黑背景，奢华金色 */
-      
+
       --bg-dark: #000000;
       --panel-bg: rgba(20, 20, 20, 0.7);
       --glass-border: rgba(255, 255, 255, 0.12);
@@ -24,13 +25,16 @@
       --radius: 12px;
     }
 
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body {
       margin: 0;
       color: var(--text-main);
       background-color: var(--bg-dark);
-      background-image: 
+      background-image:
         radial-gradient(circle at 15% 50%, rgba(58, 123, 213, 0.08), transparent 25%),
         radial-gradient(circle at 85% 30%, rgba(0, 210, 255, 0.05), transparent 25%);
       font-family: "PingFang SC", "Helvetica Neue", Helvetica, sans-serif;
@@ -40,7 +44,7 @@
 
     .app-layout {
       display: grid;
-      grid-template-columns: 320px 360px 1fr; 
+      grid-template-columns: 320px 360px 1fr;
       gap: 20px;
       height: 100vh;
       padding: 20px;
@@ -49,19 +53,58 @@
     }
 
     @media (max-width: 1100px) {
-      .app-layout { grid-template-columns: 340px 1fr; overflow-y: auto; height: auto; }
-      .col-left { grid-column: 1 / -1; order: 2; height: 500px !important; } 
-      .col-center { order: 1; }
-      .col-right { order: 3; height: 600px !important; }
+      .app-layout {
+        grid-template-columns: 340px 1fr;
+        overflow-y: auto;
+        height: auto;
+      }
+
+      .col-left {
+        grid-column: 1 / -1;
+        order: 2;
+        height: 500px !important;
+      }
+
+      .col-center {
+        order: 1;
+      }
+
+      .col-right {
+        order: 3;
+        height: 600px !important;
+      }
     }
+
     @media (max-width: 800px) {
-      .app-layout { display: flex; flex-direction: column; padding: 12px; gap: 16px; }
-      .col-left, .col-center, .col-right { height: auto !important; max-height: none; overflow: visible; }
+      .app-layout {
+        display: flex;
+        flex-direction: column;
+        padding: 12px;
+        gap: 16px;
+      }
+
+      .col-left,
+      .col-center,
+      .col-right {
+        height: auto !important;
+        max-height: none;
+        overflow: visible;
+      }
+
       /* --- 修复开始：强制重置手机端显示顺序 --- */
       /* 让第1部分(风格选择)排在最前，第2部分(输入)在中间，第3部分(结果)在最后 */
-      .col-left { order: 1; }
-      .col-center { order: 2; }
-      .col-right { order: 3; }
+      .col-left {
+        order: 1;
+      }
+
+      .col-center {
+        order: 2;
+      }
+
+      .col-right {
+        order: 3;
+      }
+
       /* --- 修复结束 --- */
     }
 
@@ -78,10 +121,17 @@
     .panel-header {
       padding: 16px;
       border-bottom: 1px solid var(--glass-border);
-      background: rgba(0,0,0,0.2);
+      background: rgba(0, 0, 0, 0.2);
     }
-    .panel-header h2 { margin: 0; font-size: 15px; font-weight: 600; color: #fff; letter-spacing: 0.5px; }
-    
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
     .panel-body {
       padding: 16px;
       overflow-y: auto;
@@ -92,10 +142,26 @@
     }
 
     /* 左栏 */
-    .col-left { height: 100%; }
-    .section-title { font-size: 13px; color: var(--accent); margin-bottom: 10px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-    
-    .style-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .col-left {
+      height: 100%;
+    }
+
+    .section-title {
+      font-size: 13px;
+      color: var(--accent);
+      margin-bottom: 10px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .style-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
     .style-card {
       position: relative;
       border-radius: 8px;
@@ -105,50 +171,158 @@
       transition: 0.2s;
       background: #000;
     }
-    .style-card.active { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.2); }
-    .style-card.loading { opacity: 0.5; cursor: wait; } /* 加载状态 */
-    .style-card img { width: 100%; height: 75px; object-fit: cover; display: block; opacity: 0.7; transition: 0.3s; }
-    .style-card:hover img { opacity: 1; }
-    .style-card.active img { opacity: 1; }
-    
-    .style-name {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      background: rgba(0,0,0,0.7); color: #fff;
-      font-size: 11px; padding: 4px; text-align: center;
-    }
-    .style-actions { position: absolute; top: 4px; right: 4px; display: flex; gap: 4px; }
-    .icon-btn {
-      width: 20px; height: 20px; background: rgba(0,0,0,0.6); border-radius: 4px;
-      color: #fff; display: flex; align-items: center; justify-content: center;
-      font-size: 12px; cursor: pointer; transition: 0.2s; border: 1px solid rgba(255,255,255,0.2);
-    }
-    .icon-btn:hover { background: var(--accent); color: #000; }
 
-    .divider-text { text-align: center; font-size: 12px; color: var(--text-muted); margin: -10px 0 10px; font-style: italic; }
+    .style-card.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.2);
+    }
+
+    .style-card.loading {
+      opacity: 0.5;
+      cursor: wait;
+    }
+
+    /* 加载状态 */
+    .style-card img {
+      width: 100%;
+      height: 75px;
+      object-fit: cover;
+      display: block;
+      opacity: 0.7;
+      transition: 0.3s;
+    }
+
+    .style-card:hover img {
+      opacity: 1;
+    }
+
+    .style-card.active img {
+      opacity: 1;
+    }
+
+    .style-name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      font-size: 11px;
+      padding: 4px;
+      text-align: center;
+    }
+
+    .style-actions {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      display: flex;
+      gap: 4px;
+    }
+
+    .icon-btn {
+      width: 20px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 4px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .icon-btn:hover {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .divider-text {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: -10px 0 10px;
+      font-style: italic;
+    }
 
     .upload-area {
       border: 1px dashed var(--glass-border);
-      background: rgba(0,0,0,0.2);
+      background: rgba(0, 0, 0, 0.2);
       border-radius: 8px;
       padding: 20px;
       text-align: center;
       transition: 0.3s;
       cursor: pointer;
     }
-    .upload-area:hover { border-color: var(--text-muted); background: rgba(0,0,0,0.3); }
-    .upload-area.active { border-color: var(--accent); background: rgba(0, 210, 255, 0.05); }
-    .thumbs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-    .thumb { width: 60px; height: 60px; border-radius: 6px; overflow: hidden; position: relative; border: 1px solid var(--glass-border); }
-    .thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .thumb .del { position: absolute; inset: 0; background: rgba(0,0,0,0.6); color: #fff; display: flex; align-items: center; justify-content: center; opacity: 0; cursor: pointer; }
-    .thumb:hover .del { opacity: 1; }
+
+    .upload-area:hover {
+      border-color: var(--text-muted);
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .upload-area.active {
+      border-color: var(--accent);
+      background: rgba(0, 210, 255, 0.05);
+    }
+
+    .thumbs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid var(--glass-border);
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .thumb .del {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .thumb:hover .del {
+      opacity: 1;
+    }
 
     /* 中栏 */
-    .col-center { height: 100%; }
-    label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
-    input[type="text"], textarea, select {
+    .col-center {
+      height: 100%;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
       width: 100%;
-      background: rgba(0,0,0,0.3);
+      background: rgba(0, 0, 0, 0.3);
       border: 1px solid var(--glass-border);
       color: #fff;
       border-radius: 8px;
@@ -157,19 +331,61 @@
       outline: none;
       transition: 0.3s;
     }
-    textarea { min-height: 220px; resize: vertical; line-height: 1.6; }
-    input:focus, textarea:focus, select:focus { border-color: var(--accent); background: rgba(0,0,0,0.5); }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-    .key-section { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-top: auto; }
-    .key-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; line-height: 1.4; } 
-    .key-input-row { display: flex; gap: 6px; }
-    .btn-sm { 
-      padding: 0 14px; height: 34px; font-size: 13px;
-      background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); 
-      color: #ccc; border-radius: 6px; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    textarea {
+      min-height: 220px;
+      resize: vertical;
+      line-height: 1.6;
     }
-    .btn-sm:hover { background: rgba(255,255,255,0.2); }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent);
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .key-section {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: auto;
+    }
+
+    .key-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .key-input-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-sm {
+      padding: 0 14px;
+      height: 34px;
+      font-size: 13px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      color: #ccc;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .btn-sm:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
 
     /* 生成按钮：简洁现代 */
     .btn-generate {
@@ -187,31 +403,87 @@
       justify-content: center;
       gap: 8px;
       transition: all 0.2s ease;
-      box-shadow: none; 
+      box-shadow: none;
     }
-    .btn-generate:hover { filter: brightness(1.1); transform: translateY(-1px); }
-    .btn-generate:active { transform: translateY(1px); }
-    .btn-generate[disabled] { background: #333; color: #777; cursor: not-allowed; transform: none; filter: none; }
+
+    .btn-generate:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-generate:active {
+      transform: translateY(1px);
+    }
+
+    .btn-generate[disabled] {
+      background: #333;
+      color: #777;
+      cursor: not-allowed;
+      transform: none;
+      filter: none;
+    }
 
     /* 右栏 */
-    .col-right { height: 100%; }
-    .status-bar { color: var(--accent); font-size: 13px; text-align: center; min-height: 20px; }
-    .result-group { margin-bottom: 24px; animation: fadeIn 0.5s ease; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; }
-    .result-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
-    .grid-imgs { display: flex; flex-wrap: wrap; gap: 12px; }
+    .col-right {
+      height: 100%;
+    }
+
+    .status-bar {
+      color: var(--accent);
+      font-size: 13px;
+      text-align: center;
+      min-height: 20px;
+    }
+
+    .result-group {
+      margin-bottom: 24px;
+      animation: fadeIn 0.5s ease;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 20px;
+    }
+
+    .result-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .grid-imgs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
 
     /* =======================================================
        🔥 图片卡片样式调整：右下角下载按钮
        ======================================================= */
     .img-card {
-      height: 160px; 
-      border-radius: 8px; overflow: hidden; border: 1px solid var(--glass-border);
-      position: relative; background: #000; transition: 0.2s;
-      cursor: zoom-in; /* 提示可点击查看 */
+      height: 160px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+      position: relative;
+      background: #000;
+      transition: 0.2s;
+      cursor: zoom-in;
+      /* 提示可点击查看 */
     }
-    .img-card:hover { transform: translateY(-3px); border-color: var(--text-muted); }
-    .img-card img { height: 100%; width: 100%; object-fit: contain; display: block; }
-    
+
+    .img-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--text-muted);
+    }
+
+    .img-card img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
     /* 右下角下载按钮 */
     .btn-dl-overlay {
       position: absolute;
@@ -226,8 +498,10 @@
       cursor: pointer;
       backdrop-filter: blur(4px);
       transition: 0.2s;
-      z-index: 2; /* 确保在图片之上 */
+      z-index: 2;
+      /* 确保在图片之上 */
     }
+
     .btn-dl-overlay:hover {
       background: var(--accent);
       color: #000;
@@ -235,343 +509,680 @@
     }
 
     /* Lightbox */
-    .lightbox { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.95); display: none; flex-direction: column; }
-    .lightbox.show { display: flex; }
-    .lb-header { padding: 15px 20px; display: flex; justify-content: space-between; color: #aaa; }
-    .lb-content { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; overflow: hidden; width: 100%; height: 100%; }
-    .lb-content img { width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-    .lb-footer { padding: 20px; display: flex; justify-content: center; gap: 20px; }
-    
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .spinner { width: 18px; height: 18px; border: 2px solid rgba(0,0,0,0.1); border-top-color: #0f1525; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
-    .btn-copy { background: transparent; border: 1px solid #444; color: #888; border-radius: 4px; padding: 2px 6px; font-size: 11px; cursor: pointer; }
-    .btn-copy:hover { border-color: var(--accent); color: var(--accent); }
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.95);
+      display: none;
+      flex-direction: column;
+    }
+
+    .lightbox.show {
+      display: flex;
+    }
+
+    .lb-header {
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      color: #aaa;
+    }
+
+    .lb-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+    }
+
+    .lb-content img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+    }
+
+    .lb-footer {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-top-color: #0f1525;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+
+    .btn-copy {
+      background: transparent;
+      border: 1px solid #444;
+      color: #888;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .btn-copy:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* History Button */
+    .btn-history {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-history:hover {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    /* History Modal */
+    .history-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1001;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      flex-direction: column;
+      backdrop-filter: blur(10px);
+    }
+
+    .history-modal.show {
+      display: flex;
+    }
+
+    .history-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .history-header h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .history-close {
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 8px 12px;
+    }
+
+    .history-close:hover {
+      color: #fff;
+    }
+
+    .history-body {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .history-item {
+      background: var(--panel-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .history-item-thumb {
+      width: 120px;
+      height: 68px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #000;
+      flex-shrink: 0;
+    }
+
+    .history-item-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .history-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .history-item-time {
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .history-item-taskid {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: monospace;
+      word-break: break-all;
+    }
+
+    .history-item-status {
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    .history-item-status.completed {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+    }
+
+    .history-item-status.pending {
+      background: rgba(234, 179, 8, 0.2);
+      color: #eab308;
+    }
+
+    .history-item-status.failed {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+
+    .history-item-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .history-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      color: #ccc;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .history-btn:hover {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    .history-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .history-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .pagination-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      color: #ccc;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .pagination-btn:hover:not(:disabled) {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .pagination-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .pagination-info {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .history-empty {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 60px 20px;
+      font-size: 14px;
+    }
+
+    .history-item-loading {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      font-size: 12px;
+    }
+
+    .mini-spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 215, 0, 0.2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
   </style>
 </head>
+
 <body>
 
-<div class="app-layout">
-  <aside class="panel col-left">
-    <div class="panel-header"><h2>1. 选择PPT风格</h2></div>
-    <div class="panel-body">
-      <div>
-        <div class="section-title">预设PPT风格<span style="font-weight:normal; font-size:11px; opacity:0.7"> </span></div>
-        <div class="style-grid" id="styleList"></div>
+  <div class="app-layout">
+    <aside class="panel col-left">
+      <div class="panel-header">
+        <h2>1. 选择PPT风格</h2>
       </div>
-      <div class="divider-text">-- 或者在下方上传自己的风格参考图 --</div>
-      <div>
-        <div class="section-title">自定义参考图<span style="font-weight:normal; font-size:11px; opacity:0.7"> </span></div>
-        <div class="upload-area" id="dropArea">
-          <div style="font-size: 24px; margin-bottom: 8px; color: var(--text-muted);">+</div>
-          <div style="font-size: 12px; color: var(--text-muted);">点击或拖入图片，最多8张</div>
-          <input id="fileInput" type="file" accept="image/*" multiple hidden>
-        </div>
-        <div id="thumbs" class="thumbs"></div>
-      </div>
-    </div>
-  </aside>
-
-  <main class="panel col-center">
-    <div class="panel-header"><h2>2. 输入PPT内容</h2></div>
-    <div class="panel-body">
-      <div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
-          <label style="margin:0">输入提示词</label>
-          <label style="display:flex; align-items:center; gap:6px; cursor:pointer; font-size:12px; color:var(--text-muted)">
-            <input type="checkbox" id="enhancementToggle" checked> 提示词增强
-          </label>
-        </div>
-        <textarea id="prompt" placeholder="输入PPT的内容和风格要求。内容可以输入非常非常多的文字，2000字也完全没问题。如果输入的文字太少，AI会自动填充内容。风格可以使用文字描述，如果选择了风格或上传了参考图，不描述也没问题。"></textarea>
-      </div>
-      <div class="form-row">
+      <div class="panel-body">
         <div>
-          <label>画幅比例</label>
-          <select id="ratioSelect">
-            <option value="">自动</option>
-            <option value="16:9" selected>16:9</option>
-            <option value="4:3">4:3</option>
-            <option value="1:1">1:1</option>
-            <option value="9:16">9:16</option>
-            <option value="3:4">3:4</option>
-            <option value="3:2">3:2</option>
-            <option value="2:3">2:3</option>
-            <option value="5:4">5:4</option>
-            <option value="4:5">4:5</option>
-            <option value="21:9">21:9</option>
-          </select>
+          <div class="section-title">预设PPT风格<span style="font-weight:normal; font-size:11px; opacity:0.7"> </span></div>
+          <div class="style-grid" id="styleList"></div>
         </div>
+        <div class="divider-text">-- 或者在下方上传自己的风格参考图 --</div>
         <div>
-          <label>分辨率</label>
-          <select id="sizeSelect">
-            <option value="1K">1K 标准</option>
-            <option value="2K">2K 高清</option>
-            <option value="4K" selected>4K 超清</option>
-          </select>
+          <div class="section-title">自定义参考图<span style="font-weight:normal; font-size:11px; opacity:0.7"> </span></div>
+          <div class="upload-area" id="dropArea">
+            <div style="font-size: 24px; margin-bottom: 8px; color: var(--text-muted);">+</div>
+            <div style="font-size: 12px; color: var(--text-muted);">点击或拖入图片，最多8张</div>
+            <input id="fileInput" type="file" accept="image/*" multiple hidden>
+          </div>
+          <div id="thumbs" class="thumbs"></div>
         </div>
       </div>
-      <div style="flex:1"></div> 
-      <div class="status-bar" id="status"></div>
-      <div class="key-section">
-        <div class="key-label">API Key (联系作者微信 <b>duge360</b> 购买，每次0.2元，价格可能变动)</div>
-        <div class="key-input-row">
-          <input type="text" id="userKey" placeholder="sk-..." style="height:34px;">
-          <button class="btn-sm" id="saveKey">保存</button>
+    </aside>
+
+    <main class="panel col-center">
+      <div class="panel-header">
+        <h2>2. 输入PPT内容</h2>
+      </div>
+      <div class="panel-body">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
+            <label style="margin:0">输入提示词</label>
+            <label
+              style="display:flex; align-items:center; gap:6px; cursor:pointer; font-size:12px; color:var(--text-muted)">
+              <input type="checkbox" id="enhancementToggle" checked> 提示词增强
+            </label>
+          </div>
+          <textarea id="prompt"
+            placeholder="输入PPT的内容和风格要求。内容可以输入非常非常多的文字，2000字也完全没问题。如果输入的文字太少，AI会自动填充内容。风格可以使用文字描述，如果选择了风格或上传了参考图，不描述也没问题。"></textarea>
+        </div>
+        <div class="form-row">
+          <div>
+            <label>画幅比例</label>
+            <select id="ratioSelect">
+              <option value="">自动</option>
+              <option value="16:9" selected>16:9</option>
+              <option value="4:3">4:3</option>
+              <option value="1:1">1:1</option>
+              <option value="9:16">9:16</option>
+              <option value="3:4">3:4</option>
+              <option value="3:2">3:2</option>
+              <option value="2:3">2:3</option>
+              <option value="5:4">5:4</option>
+              <option value="4:5">4:5</option>
+              <option value="21:9">21:9</option>
+            </select>
+          </div>
+          <div>
+            <label>分辨率</label>
+            <select id="sizeSelect">
+              <option value="1K">1K 标准</option>
+              <option value="2K">2K 高清</option>
+              <option value="4K" selected>4K 超清</option>
+            </select>
+          </div>
+        </div>
+        <div style="flex:1"></div>
+        <div class="status-bar" id="status"></div>
+        <div class="key-section">
+          <div class="key-label">API Key (联系作者微信 <b>duge360</b> 购买，每次0.2元，价格可能变动)</div>
+          <div class="key-input-row">
+            <input type="text" id="userKey" placeholder="sk-..." style="height:34px;">
+            <button class="btn-sm" id="saveKey">保存</button>
+          </div>
+        </div>
+        <button class="btn-generate" id="go">
+          <span class="spinner" id="spin"></span>
+          <span id="btnText">立即生成</span>
+        </button>
+      </div>
+    </main>
+
+    <aside class="panel col-right">
+      <div class="panel-header">
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <h2>3. 生成结果</h2>
+          <div style="display:flex; gap:8px; align-items:center">
+            <button class="btn-history" onclick="openHistory()">📋 历史记录</button>
+            <span style="font-size:12px; color:var(--text-muted)">预览/下载</span>
+          </div>
         </div>
       </div>
-      <button class="btn-generate" id="go">
-        <span class="spinner" id="spin"></span>
-        <span id="btnText">立即生成</span>
-      </button>
+      <div class="panel-body" id="gallery"></div>
+    </aside>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lb-header">
+      <span id="lbInfo">预览</span>
+      <span style="cursor:pointer" onclick="closeLightbox()">✕ 关闭 (ESC)</span>
     </div>
-  </main>
-
-  <aside class="panel col-right">
-    <div class="panel-header">
-      <div style="display:flex; justify-content:space-between; align-items:center">
-        <h2>3. 生成结果</h2>
-        <span style="font-size:12px; color:var(--text-muted)">预览/下载</span>
-      </div>
+    <div class="lb-content" onclick="closeLightbox()">
+      <img id="lbImg" src="" onclick="event.stopPropagation()">
     </div>
-    <div class="panel-body" id="gallery"></div>
-  </aside>
-</div>
-
-<div class="lightbox" id="lightbox">
-  <div class="lb-header">
-    <span id="lbInfo">预览</span>
-    <span style="cursor:pointer" onclick="closeLightbox()">✕ 关闭 (ESC)</span>
+    <div class="lb-footer">
+      <button class="btn-sm" onclick="downloadCurrent()" id="lbDownBtn" style="display:none">下载原图</button>
+    </div>
   </div>
-  <div class="lb-content" onclick="closeLightbox()">
-    <img id="lbImg" src="" onclick="event.stopPropagation()">
+
+  <!-- History Modal -->
+  <div class="history-modal" id="historyModal">
+    <div class="history-header">
+      <h3>📋 历史生成记录</h3>
+      <button class="history-close" onclick="closeHistory()">✕ 关闭</button>
+    </div>
+    <div class="history-body">
+      <div class="history-list" id="historyList"></div>
+    </div>
+    <div class="history-footer">
+      <button class="pagination-btn" id="historyPrev" onclick="historyPrevPage()">← 上一页</button>
+      <span class="pagination-info" id="historyPageInfo">第 1 页 / 共 1 页</span>
+      <button class="pagination-btn" id="historyNext" onclick="historyNextPage()">下一页 →</button>
+    </div>
   </div>
-  <div class="lb-footer">
-    <button class="btn-sm" onclick="downloadCurrent()" id="lbDownBtn" style="display:none">下载原图</button>
-  </div>
-</div>
 
-<script>
-;(() => {
-  // ========================================================
-  // 🟢 风格配置区
-  // ========================================================
-  const PPT_STYLES = [
-    {
-      id: 'red_grey_project',
-      title: '红灰项目汇报',
-      preview: './styles/red_grey_project/preview.png',
-      refs: [
-        './styles/red_grey_project/ref1.png',
-        './styles/red_grey_project/ref2.png',
-        './styles/red_grey_project/ref3.png',
-        './styles/red_grey_project/ref4.png',
-        './styles/red_grey_project/ref5.png',
-        './styles/red_grey_project/ref6.png',
-        './styles/red_grey_project/ref7.png'
-      ],
-      suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成企业级数据可视化PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业商务演示文稿的静态单页图片。【核心风格要求】：1. 整体基调：企业级信息图表PPT设计，风格专业、严谨、商务。主导红+灰配色体系。背景整洁。2. 布局与元素：高度结构化、模块化的网格布局。使用带有微妙投影的卡片容器、连接线、指示箭头、现代扁平化商务图标，强调“信息量巨大”和“高密度数据展示”。重点数字需特大号加粗显示。3. 视觉形式多样性（重点）：根据内容逻辑，优先运用以下高阶炫酷图表形式（无需告诉用户你使用的形式的名称）：(a) 莫比乌斯环与无限循环符号（Mobius Strip/Infinity Loop）：用于展示统一策略、生态闭环或无尽的价值循环，具有3D立体质感和流动的光泽感；(b) 炫酷圆环与同心圆体系：包括双圆交织（协同效应）、三环重叠（多维发力）或半圆仪表盘，圆环上需带有清晰的节点标注；(c) 几何闭环流程：五边形/六边形/多边形循环图，中心放置核心图标，四周环绕步骤；(d) 结构化分析图：鱼骨图（Ishikawa）用于问题诊断，3D折叠彩带箭头用于线性增长展示。4. 字体：干净的无衬线字体（如微软雅黑风格）。【内容处理绝对规则】：1. 语言：默认使用简体中文。2. 数据严谨性：无论什么场景，必须完全使用用户提供的数据、数值和专业名词。绝对禁止自己编造数据或虚构数值。如果用户提供的数据量较少，请通过增大字号、采用中心聚焦排版或增加装饰性图标来适配页面，而不是填充虚假内容。3. 结构优先：严格按照用户提供的文本结构（如“8大策略循环”、“双轮驱动”）来选择对应的图表形式（如8节点的莫比乌斯环、双圆交织图）。【可生成的页面形式，包括但不限于】：1. 循环与生态：3D莫比乌斯环、多重同心圆、五边形/六边形闭环。2. 诊断与分析：鱼骨图、漏斗图、SWOT矩阵。3. 趋势与成果：3D折叠箭头、锯齿状时间轴、数据仪表板。'
-    },
-    {
-      id: 'leader_love',
-      title: '领导最爱',
-      preview: './styles/leader_love/preview.png',
-      refs: [
-        './styles/leader_love/ref1.png',
-        './styles/leader_love/ref4.png',
-        './styles/leader_love/ref5.png',
-        './styles/leader_love/ref6.png',
-        './styles/leader_love/ref7.png',
-        './styles/leader_love/ref8.png'
-      ],
-      suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：生成PPT单页截图，用户会把这个图片直接插入到PPT里。企业级信息图表PPT幻灯片设计，专业商务演示风格，信息量巨大。主导的科技蓝配色方案（深蓝，天蓝，浅蓝渐变）。高度结构化的布局，包含模块化元素，模块布局紧凑，内容丰富详实，带有微妙投影的圆角矩形文本框，连接线，指示流程的箭头，以及现代扁平商务图标。干净的无衬线字体排版。信息设计，数据可视化，战略框架美学。如果用户未要求，默认使用中文。当前需要生成的页面内容：如果用户的提示词非常详实，直接使用用户提供的内容来生成PPT；如果用户的提示词过于简单，不足以生成紧凑、内容充实的PPT，请先使用你的专业知识完善PPT的主题内容，生成详细的大纲，再生成最终的PPT。无论哪种场景，都要完全使用用户提供的数据和专业名词，不要自己编造数据。具体可以生成的PPT形式包括以下几种：线性流程与阶段图，适用于：发展历程、策略步骤、供应链流程、用户路径，样式说明：线性流程图，水平时间轴进展，多阶段箭头连接顺序阶段。分步信息图，V形箭头指示方向。顶部有主标题，下方有几个带有图标和描述性文字占位符的流程块；层次架构与金字塔图，适用于：技术架构、组织层级、能力分层、漏斗模型。分层架构图，堆叠层金字塔结构，自下而上的演进。带有标签的分层块，底部是基础层，中间是核心能力层，顶部是应用层。数据流箭头指示向上移动；数据看板与图文组合，适用于：工作成果展示、市场数据分析、多维度并列展示。数据仪表板布局，图表和信息图的组合。包含条形图、带有百分比的饼图，以及带有大数字的数据标注框。模块化网格布局，展示关键绩效指标（KPI）、商业价值链分析和生态系统图；矩阵与象限图，适用于：项目管理全视图、产品分类、波士顿矩阵分析。结构化网格矩阵，四象限分析图，或详细的表格布局。分类信息块按行和列组织，有清晰的表头。网格部分内嵌流程图。'
-    },
-    {
-      id: 'data_vision',
-      title: '数据可视化',
-      preview: './styles/data_vision/preview.png',
-      refs: [
-        './styles/data_vision/ref1.png',
-        './styles/data_vision/ref2.png',
-        './styles/data_vision/ref3.png',
-        './styles/data_vision/ref4.png',
-        './styles/data_vision/ref5.png',
-        './styles/data_vision/ref6.png',
-        './styles/data_vision/ref7.png',
-        './styles/data_vision/ref8.png'
-      ],
-      suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成企业级信息图表和数据可视化PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业商务演示文稿的静态单页图片。【核心风格要求】：1. 整体基调：企业级信息图表PPT设计，风格专业、严谨、商务，强调“信息量巨大”和“高密度数据展示”。2. 配色方案：严格采用主导的“科技蓝”或者“清新绿”配色体系，辅以少量强调色（如红/橙用于强调，绿用于辅助），背景整洁。3. 布局：高度结构化、模块化的网格布局。内容排列紧凑，使用带有微妙投影的圆角矩形容器承载信息。4. 元素：包含连接线、指示流程的箭头、现代扁平化商务图标。重点数字需特大号加粗显示。5. 字体：干净的无衬线字体（如微软雅黑风格）。【内容处理规则】：1. 语言：默认使用简体中文。2. 处理逻辑：如果用户提供的数据详实，请严格基于用户内容生成；如果用户的提示词过于简单（例如“做一个销售报表”），请务必利用你的专业知识完善主题内容，构建一个包含多个相关模块的详细大纲，自动补充专业术语以展示高密度信息图表的效果，再生成最终的PPT。无论什么场景，都要完全使用用户提供的数据和专业名词，不要自己编造数据。【可生成的页面形式】：1. 数据看板与图文组合：适用于市场分析、KPI展示。布局为数据仪表板，包含大字号数字标注框、条形图、饼图、折线图的组合，模块化网格排列。2. 线性流程与阶段图：适用于发展历程、策略步骤。布局为水平时间轴或多阶段箭头连接，包含V形指示箭头。3. 层次架构与金字塔图：适用于技术架构、组织层级。布局为堆叠式金字塔或分层方块，自下而上支撑。4. 矩阵与象限图：适用于SWOT分析、产品分类。布局为四象限图或详细的结构化表格（包含表头和行数据）。'
-    },
-    {
-      id: 'work_result',
-      title: '工作汇报',
-      preview: './styles/work_result/preview.png',
-      refs: [
-        './styles/work_result/ref1.png',
-        './styles/work_result/ref2.png',
-        './styles/work_result/ref3.png',
-        './styles/work_result/ref4.png',
-        './styles/work_result/ref5.png',
-        './styles/work_result/ref6.png',
-        './styles/work_result/ref7.png',
-        './styles/work_result/ref8.png'
-      ],
-      suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成企业级个人工作汇报PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业商务演示文稿的静态单页图片。【核心风格要求】：1. 整体基调：专业、严谨、商务的企业级个人汇报风格。主导“科技蓝+深红/朱红”配色体系，蓝色用于主视觉和科技感强调，红色用于高亮关键成果、策略或特定流程模块，背景整洁微带科技纹理。2. 布局与元素：高度结构化、模块化的网格布局。大量使用带有微妙投影和渐变效果的圆角矩形容器、明确粗壮的连接线、指示箭头和现代扁平化商务图标。重点关键数据（百分比、数值、金额）需特大号加粗显示，配合醒目的单位，强调“信息密度”和“成果量化”。3. 视觉形式多样性：根据用户输入内容的逻辑结构，自动适配最佳的高阶图表形式，包括但不限于：(a) 3D立体台阶与信息卡片组合（用于展示分步晋升、能力提升路径）；(b) 锯齿状或蜿蜒的带节点时间轴/里程碑路径（用于展示项目演进、关键事件）；(c) 中心辐射型、环形或五边形循环布局（用于展示闭环工作流、核心方法论或多维能力模型）；(d) 几何分割对比图（如左右对撞的六边形或梯形，用于“上半年总结 vs 下半年计划”或“现状 vs 目标”对比）；(e) 标准多列式卡片或顶部横幅仪表板（用于并列展示多个项目成果或核心指标概览）。4. 字体：干净、易读的无衬线商务字体。【内容处理绝对规则】：1. 语言：默认使用简体中文。2. 数据严谨性：这是最高指令。无论何种场景和视觉形式，必须完全、精确地使用用户提供的所有数据、数值、专业名词、项目名称和文本描述。绝对禁止AI自主编造任何数据、虚构数值、夸大成果或拓展用户未提及的内容。3. 内容适配：若用户提供的数据量较少，应通过优秀的排版设计（如增大关键数字字号、优化版面留白、采用中心聚焦式构图）来确保页面视觉平衡和专业感，绝不可为了填满空间而填充虚假占位信息。你的任务是将用户输入的文本信息转化为上述风格的高度专业可视化的PPT截图。'
-    },
-    {
-      id: 'red_blue_project',
-      title: '红蓝项目汇报',
-      preview: './styles/red_blue_project/preview.png',
-      refs: [
-        './styles/red_blue_project/ref1.png',
-        './styles/red_blue_project/ref2.png',
-        './styles/red_blue_project/ref3.png',
-        './styles/red_blue_project/ref4.png',
-        './styles/red_blue_project/ref5.png',
-        './styles/red_blue_project/ref6.png'
-      ],
-      suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成企业级高密度数据可视化PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业商务演示文稿的静态单页图片，核心强调“信息量巨大”和“高密度数据展示”。【核心风格要求】：整体基调为专业、严谨、商务的企业级信息图表设计。主导配色严格遵循参考图的“科技蓝+深红/橙红”体系，背景整洁白底。布局采用高度结构化、模块化的网格形式，信息排布极其紧凑。大量使用带有微妙立体感或投影的圆角矩形容器、连接线、指示箭头和现代扁平化商务图标。关键数据和指标数字必须特大号加粗显示，配合醒目的颜色，以视觉化凸显极高的信息密度。【视觉形式多样性】：根据用户输入的内容逻辑，灵活运用以下高阶图表形式进行高密度展示：(a) 3D立体台阶或波浪形丝带路径（用于包含大量节点的流程演进）；(b) 中心辐射型、圆形闭环或漏斗汇聚至靶心的布局（用于复杂的协同、总结与目标聚焦）；(c) 几何分割对比图（如上下红蓝通栏横幅、六边形对撞区域，用于密集对比）；(d) 金字塔分层结构（用于多层级密集管理）；(e) 底部或侧边带有多组数据卡片的复合型仪表板。【内容处理绝对规则】：默认使用简体中文。无论何种场景，必须完全、严格地使用用户提供的数据、数值和专业名词。绝对禁止自己编造任何数据、虚构数值或填充无意义文本。即使用户提供的信息量看似较少，也必须通过增大关键数字字号、优化模块留白或采用中心聚焦排版来适配，严禁无中生有地增加信息。'
-    },
-    {
-      id: 'red_tech',
-      title: '红色科技',
-      preview: './styles/red_tech/preview.png',
-      refs: [
-        './styles/red_tech/ref1.png',
-        './styles/red_tech/ref2.png',
-        './styles/red_tech/ref3.png',
-        './styles/red_tech/ref4.png',
-        './styles/red_tech/ref5.png',
-        './styles/red_tech/ref6.png'
-      ],
-      suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成企业级高密度数据可视化PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业商务演示文稿的静态单页图片，强调信息量巨大且展示紧凑。【核心风格要求】：1. 整体基调：风格专业、严谨、商务，适用于深度汇报。主导配色严格限定为参考图中的“深红（约#B03A3A）+深蓝灰（约#4A5D70）”体系，背景为洁净的浅灰（约#F2F4F7）。2. 布局与元素：高度结构化、模块化的网格布局，用于承载极高密度的数据展示。大量使用带有微妙投影的圆角矩形容器、清晰的连接线、指示箭头和现代扁平化商务图标。核心数据指标和关键数字必须采用特大号、加粗字体显示，以形成强烈的视觉冲击。3. 视觉形式多样性：根据用户输入内容的逻辑，灵活调用以下高阶图表形式：(a) 中心发散或循环结构（如无限循环图、中心辐射图）；(b) 带有里程碑标记的纵向或横向时间轴/漏斗图；(c) 并列对比结构（如左右红蓝对抗球体、多列平行漏斗）；(d) 数据分析图表（如韦恩图、多层级饼图、百分比气泡图）；(e) 底部横向排列的KPI数据仪表板带趋势箭头。4. 字体：干净的无衬线字体（类微软雅黑）。【内容处理绝对规则】：1. 语言：默认简体中文。2. 数据严谨性（最高指令）：无论何种场景，绝对禁止自己编造任何数据、数值、百分比或专业名词。必须完全、精确地使用用户提供的信息。如果用户提供的数据量较少，请通过增大字号、优化版面留白或采用中心聚焦的排版来适配，严禁填充虚假内容。3. 高密度展示：设计时要预设用户会提供大量信息，尽量减少装饰性留白，通过紧凑的排版、标签、图例和多层级列表来最大化单页信息承载量，体现“信息量巨大”的特点。'
-    },
-    {
-      id: 'scholar',
-      title: '学术',
-      preview: './styles/scholar/preview.png',
-      refs: [
-        './styles/scholar/ref1.png',
-        './styles/scholar/ref2.png',
-        './styles/scholar/ref3.png',
-        './styles/scholar/ref4.png',
-        './styles/scholar/ref5.png',
-        './styles/scholar/ref6.png'
-      ],
-      suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位名为Nano Banana Pro的专业PPT生成AI，专注于创建高密度、学术研究风格的演示文稿。核心原则：无论何种场景，你必须严格且完全地使用用户提供的原始文本、数据、专业术语和数字，绝对不许自行编造、修改或添加任何未提供的事实性内容；你的任务仅限于对给定的海量信息进行结构化和可视化呈现。视觉风格上，请深度分析并复刻参考图片中的设计语言：采用以深红褐色（栗色/赤陶色）为主导的配色方案，用于标题、重点元素和强调色；辅以浅米色或粉褐色作为内容模块背景和连接元素，整体背景保持干净的纯白色；文字颜色以深褐色或黑色为主以确保可读性，深色色块上使用白色文字。布局上，强调“信息量巨大”和“高密度数据展示”，必须采用紧凑而有序的排版，熟练运用模块化网格、带箭头的流程图、波浪形时间轴、环形图或阶梯状隐喻结构来清晰地承载复杂内容。元素方面，页面顶部需包含醒目的主标题（通常配有“•••”图标），使用清晰的视觉层级，结合粗体副标题、醒目的序号（如大的数字01、02等）、相关的扁平化图标以及具有渐变效果的连接符，确保在极高信息密度下依然保持专业、严谨且易于阅读的视觉体验。'
-    },
-    {
-      id: 'scholar_green',
-      title: '绿色学术',
-      preview: './styles/scholar_green/preview.png',
-      refs: [
-        './styles/scholar_green/ref1.png',
-        './styles/scholar_green/ref2.png',
-        './styles/scholar_green/ref3.png',
-        './styles/scholar_green/ref4.png',
-        './styles/scholar_green/ref5.png',
-        './styles/scholar_green/ref6.png',
-        './styles/scholar_green/ref7.png'
-      ],
-      suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成学术研究型数据可视化PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业学术或商务演示文稿的静态单页图片。【核心风格要求】：1.整体基调：学术研究与商务结合的信息图表PPT设计，风格专业、严谨、整洁且具有视觉吸引力。主导基于参考图的“蓝绿色(Teal)+浅绿色+橄榄绿”复合配色体系，搭配纯白背景。2.布局与元素：高度结构化、模块化的网格布局。大量使用带有微妙投影和边框的圆角矩形容器、虚实连接线、指示箭头、以及现代扁平化风格的学术及商务图标（如文档、图表、齿轮、放大镜、建筑、手机、灯泡、目标等）。重点强调“信息量巨大”和“高密度数据展示”，在有限页面内清晰呈现复杂逻辑结构和大量文本信息。3.视觉形式多样性：根据内容逻辑，灵活运用以下高阶图表形式：(a)互锁的几何形状组合（如菱形交织）；(b)箭头导向的线性流程图与步骤条；(c)中心辐射型或多点连接型圆形节点网络图；(d)分段式扇形或半圆形进度/分析图（带数字标注）；(e)拼图块状的线性流程图；(f)分层堆叠的侧面金字塔或漏斗图；(g)悬浮的等轴测分层图块。4.字体：干净的无衬线字体（如微软雅黑风格），主标题醒目加粗，副标题和正文清晰易读。【内容处理绝对规则】：1.语言：默认使用简体中文。2.数据严谨性：无论哪种场景和主题，必须完全、精确地使用用户提供的数据、数值、专业名词和所有文本内容。绝对禁止自己编造数据、虚构数值或补充未经说明的文本。3.内容适配：如果用户提供的信息量较少，请通过合理的排版设计、增大核心观点字号或采用中心聚焦的布局来适配页面，而不是填充虚假内容。【可生成的页面形式，包括但不限于】：1.理论框架与模型构建：互锁几何图、分层堆叠图、金字塔图。2.研究方法与流程：箭头导向图、拼图流程图、步骤图。3.机制分析与影响因素：中心辐射图、扇形图、多模块对比分析图、因果关系网络图。'
-    },
-    {
-      id: 'simple_business',
-      title: '简约商务',
-      preview: './styles/simple_business/preview.png',
-      refs: [
-        './styles/simple_business/ref1.png',
-        './styles/simple_business/ref2.png',
-        './styles/simple_business/ref3.png',
-        './styles/simple_business/ref4.png',
-        './styles/simple_business/ref5.png'
-      ],
-      suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成专业商务PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业演示文稿的静态单页图片。【核心风格要求】：1.整体基调：简洁、现代、商务风格的信息图表PPT设计。背景整洁（纯白或极浅灰），强调留白与呼吸感。2.配色体系：严格遵循参考图的“深岩板蓝（Slate Blue）+深灰/黑”配色。深岩板蓝用于强调、图标、色块和边框元素，文字内容使用深灰色。3.布局与元素：页面具有标志性的左上角和右下角深岩板蓝色L型粗边框装饰。标题区带有大号数字编号（如“04.工作进度计划”）。内容采用高度模块化、结构化的网格或流式布局。使用现代扁平化线条图标或实心几何形状（如旗帜、菱形、圆形）。4.视觉形式多样性：根据用户输入的内容逻辑，灵活运用以下高阶图表形式：(a)带有旗帜节点和宽大蜿蜒箭头路径的流程/时间轴；(b)深色图文色块与专业商务摄影照片的混合网格布局；(c)顶部带有线性图标的四列/多列简洁卡片；(d)中心环绕辐射型的圆形节点结构图；(e)使用菱形或几何形状作为编号引导的区块布局。5.字体：干净的无衬线商务字体。【内容处理绝对规则】：1.数据严谨性：无论何种场景，必须完全使用用户提供的数据、文本和专业名词。绝对禁止自己编造数据、虚构数值或填充无关文本。如果用户提供的信息量较少，应通过优化排版、增大字号或中心聚焦来适配，而非填充虚假内容。2.内容呈现：忠实呈现用户输入的所有层级信息，保持商务汇报的严肃性。'
-    },
-    {
-      id: 'simple_colorful',
-      title: '简约多彩',
-      preview: './styles/simple_colorful/preview.png',
-      refs: [
-        './styles/simple_colorful/ref1.png',
-        './styles/simple_colorful/ref2.png',
-        './styles/simple_colorful/ref3.png',
-        './styles/simple_colorful/ref4.png',
-        './styles/simple_colorful/ref5.png',
-        './styles/simple_colorful/ref6.png'
-      ],
-      suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成简洁、多彩、活泼风格PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入演示文稿的静态单页图片。【核心风格要求】：1. 整体基调：简洁、现代、充满活力的PPT设计。背景为干净的白色，角落带有抽象的几何图形元素（如三角形、圆点、线条），颜色使用参考图中的深蓝、红色、浅蓝、橙色配色方案。2. 布局与元素：结构化、模块化的布局。使用带有微妙投影的圆角矩形卡片、圆角横幅、圆形数据可视化图表（如饼图、百分比气泡）、扁平化图标、箭头和高质量的图片容器。重点数字需特大号加粗显示，强调视觉冲击力。3. 视觉形式多样性：根据内容逻辑，灵活运用以下图表形式：(a) 分步流程图（如四个圆角卡片并排）；(b) 列表展示（如带有图标和箭头的彩色横幅）；(c) 中心数据聚焦（如大圆圈百分比图）；(d) 图文混排（如左侧文本右侧图片或2x2网格图文）；(e) 感谢页（中心对齐文本和抽象图形）。4. 字体：干净的无衬线字体（如微软雅黑风格），层级分明（大标题、副标题、正文）。【内容处理绝对规则】：1. 语言：默认使用简体中文。2. 数据严谨性：无论哪种场景，必须完全使用用户提供的数据、数值和专业名词。绝对禁止自己编造数据或虚构数值。如果用户提供的数据量较少，请通过增大字号、优化留白或采用中心聚焦的排版来适配，而不是填充虚假内容。3. 内容完善：如果用户的提示词过于简单，可以构建框架，但具体指标和数值必须保持空白或使用通用占位符，严禁生成误导性的具体数字。【可生成的页面形式，包括但不限于】：1. 流程与步骤：四步卡片图、线性箭头流程。2. 列表与要点：彩色横幅列表、图文结合列表。3. 数据与对比：圆形百分比图、数据看板。4. 封面与封底：标题页、感谢页。5. 图文展示：左文右图、多图网格布局。'
-    },
-    {
-      id: 'modern_illustration',
-      title: '现代插画',
-      preview: './styles/modern_illustration/preview.png',
-      refs: [
-        './styles/modern_illustration/ref1.png',
-        './styles/modern_illustration/ref2.png',
-        './styles/modern_illustration/ref3.png',
-        './styles/modern_illustration/ref4.png',
-        './styles/modern_illustration/ref5.png',
-        './styles/modern_illustration/ref6.png'
-      ],
-      suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成现代商务插画风格PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入演示文稿的静态单页图片。【核心风格要求】：1.整体基调：现代简约商务设计，风格清新、专业且富有设计感，核心特色是结合高质量的扁平化现代插画。背景整洁，常带有微妙的浅灰色网格纹理底纹。2.配色体系：主导“皇家蓝/紫蓝”作为核心强调色（用于顶部标题块、按钮背景、重点图标、插画点缀色），搭配黑色描边、深灰文本和浅灰/纯白色背景容器。3.布局与元素：高度结构化、模块化布局。常见标准元素包括：(a)顶部统一导航栏（左侧蓝色实心矩形块+标题文本+右侧菜单图标）；(b)带有轻微边框或浅灰背景的干净矩形内容卡片；(c)醒目的大号数字编号（如蓝色填充的01, 02）；(d)风格统一的黑白描边加彩色（蓝、橙、浅红）点缀的现代人物角色或办公场景插画（例如：手持巨大铅笔/信件的人物、带有数据图表的平板电脑、办公桌场景）；(e)简洁的商务图标（蓝色圆形对勾、灰色圆形叉号、文档图标）。底部常有植物盆栽或箭头线条等装饰元素。4.字体：干净的无衬线字体（如微软雅黑风格）。【内容处理绝对规则】：1.语言：默认使用简体中文。2.数据严谨性：无论哪种场景，必须完全使用用户提供的数据、数值和专业名词。绝对禁止自己编造数据或虚构数值。如果用户提供的数据量较少，请通过增大字号、优化留白或采用中心聚焦的排版来适配，而不是填充虚假内容。【可生成的页面形式，包括但不限于】：1.图文混排页（左侧插画/照片，右侧多点文字）；2.流程与步骤页（带有大数字编号的横向或纵向模块）；3.重点对比页（使用对勾/叉号图标进行正反罗列）；4.数据概览页（使用醒目大字号展示关键数据指标）；5.核心主题页（围绕一个大型中心插画展开文本叙述）。'
-    },
-    {
-      id: 'party1',
-      title: '党建红色',
-      preview: './styles/party1/preview.png',
-      refs: [
-        './styles/party1/ref1.png',
-        './styles/party1/ref2.png',
-        './styles/party1/ref3.png',
-        './styles/party1/ref4.png',
-        './styles/party1/ref5.png',
-        './styles/party1/ref6.png'
-      ],
-      suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成红色爱国主义风格专业PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入正式演示文稿的静态单页图片。【核心风格要求】：1.整体基调：庄重、大气、充满爱国情怀的政务或庆典风格PPT设计。主导“深红渐变+金色点缀”配色体系，背景常伴有红绸飞扬或旗帜纹理。2.布局与元素：高度结构化、模块化的布局。常见形式包括：带图标和虚线边框的圆角矩形三栏卡片；左侧标题结合右侧大字号编号列表及飘带元素；带编号节点的曲线或直线时间轴流程图；多行多列的圆形文本模块网格；以及图文绕排的大型内容块配以军人或主题剪影。标题常由金色五角星★★★装饰。3.视觉形式：灵活运用金色线条图标、编号圆环、指示箭头、柔和投影的米色/奶油色内容容器。字体多采用庄重的衬线体标题与清晰的无衬线体正文结合。【内容处理绝对规则】：1.语言：默认使用简体中文。2.数据严谨性：无论哪种场景，必须完全使用用户提供的数据、数值和专业名词。绝对禁止自己编造数据或虚构数值。如果用户提供的数据量较少，请通过增大字号、优化留白或采用中心聚焦的排版来适配，而不是填充虚假内容。'
-    },
-  ];
+  <script>
+    ; (() => {
+      // ========================================================
+      // 🟢 风格配置区
+      // ========================================================
+      const PPT_STYLES = [
+        {
+          id: 'red_grey_project',
+          title: '红灰项目汇报',
+          preview: './styles/red_grey_project/preview.png',
+          refs: [
+            './styles/red_grey_project/ref1.png',
+            './styles/red_grey_project/ref2.png',
+            './styles/red_grey_project/ref3.png',
+            './styles/red_grey_project/ref4.png',
+            './styles/red_grey_project/ref5.png',
+            './styles/red_grey_project/ref6.png',
+            './styles/red_grey_project/ref7.png'
+          ],
+          suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成企业级数据可视化PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业商务演示文稿的静态单页图片。【核心风格要求】：1. 整体基调：企业级信息图表PPT设计，风格专业、严谨、商务。主导红+灰配色体系。背景整洁。2. 布局与元素：高度结构化、模块化的网格布局。使用带有微妙投影的卡片容器、连接线、指示箭头、现代扁平化商务图标，强调“信息量巨大”和“高密度数据展示”。重点数字需特大号加粗显示。3. 视觉形式多样性（重点）：根据内容逻辑，优先运用以下高阶炫酷图表形式（无需告诉用户你使用的形式的名称）：(a) 莫比乌斯环与无限循环符号（Mobius Strip/Infinity Loop）：用于展示统一策略、生态闭环或无尽的价值循环，具有3D立体质感和流动的光泽感；(b) 炫酷圆环与同心圆体系：包括双圆交织（协同效应）、三环重叠（多维发力）或半圆仪表盘，圆环上需带有清晰的节点标注；(c) 几何闭环流程：五边形/六边形/多边形循环图，中心放置核心图标，四周环绕步骤；(d) 结构化分析图：鱼骨图（Ishikawa）用于问题诊断，3D折叠彩带箭头用于线性增长展示。4. 字体：干净的无衬线字体（如微软雅黑风格）。【内容处理绝对规则】：1. 语言：默认使用简体中文。2. 数据严谨性：无论什么场景，必须完全使用用户提供的数据、数值和专业名词。绝对禁止自己编造数据或虚构数值。如果用户提供的数据量较少，请通过增大字号、采用中心聚焦排版或增加装饰性图标来适配页面，而不是填充虚假内容。3. 结构优先：严格按照用户提供的文本结构（如“8大策略循环”、“双轮驱动”）来选择对应的图表形式（如8节点的莫比乌斯环、双圆交织图）。【可生成的页面形式，包括但不限于】：1. 循环与生态：3D莫比乌斯环、多重同心圆、五边形/六边形闭环。2. 诊断与分析：鱼骨图、漏斗图、SWOT矩阵。3. 趋势与成果：3D折叠箭头、锯齿状时间轴、数据仪表板。'
+        },
+        {
+          id: 'leader_love',
+          title: '领导最爱',
+          preview: './styles/leader_love/preview.png',
+          refs: [
+            './styles/leader_love/ref1.png',
+            './styles/leader_love/ref4.png',
+            './styles/leader_love/ref5.png',
+            './styles/leader_love/ref6.png',
+            './styles/leader_love/ref7.png',
+            './styles/leader_love/ref8.png'
+          ],
+          suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：生成PPT单页截图，用户会把这个图片直接插入到PPT里。企业级信息图表PPT幻灯片设计，专业商务演示风格，信息量巨大。主导的科技蓝配色方案（深蓝，天蓝，浅蓝渐变）。高度结构化的布局，包含模块化元素，模块布局紧凑，内容丰富详实，带有微妙投影的圆角矩形文本框，连接线，指示流程的箭头，以及现代扁平商务图标。干净的无衬线字体排版。信息设计，数据可视化，战略框架美学。如果用户未要求，默认使用中文。当前需要生成的页面内容：如果用户的提示词非常详实，直接使用用户提供的内容来生成PPT；如果用户的提示词过于简单，不足以生成紧凑、内容充实的PPT，请先使用你的专业知识完善PPT的主题内容，生成详细的大纲，再生成最终的PPT。无论哪种场景，都要完全使用用户提供的数据和专业名词，不要自己编造数据。具体可以生成的PPT形式包括以下几种：线性流程与阶段图，适用于：发展历程、策略步骤、供应链流程、用户路径，样式说明：线性流程图，水平时间轴进展，多阶段箭头连接顺序阶段。分步信息图，V形箭头指示方向。顶部有主标题，下方有几个带有图标和描述性文字占位符的流程块；层次架构与金字塔图，适用于：技术架构、组织层级、能力分层、漏斗模型。分层架构图，堆叠层金字塔结构，自下而上的演进。带有标签的分层块，底部是基础层，中间是核心能力层，顶部是应用层。数据流箭头指示向上移动；数据看板与图文组合，适用于：工作成果展示、市场数据分析、多维度并列展示。数据仪表板布局，图表和信息图的组合。包含条形图、带有百分比的饼图，以及带有大数字的数据标注框。模块化网格布局，展示关键绩效指标（KPI）、商业价值链分析和生态系统图；矩阵与象限图，适用于：项目管理全视图、产品分类、波士顿矩阵分析。结构化网格矩阵，四象限分析图，或详细的表格布局。分类信息块按行和列组织，有清晰的表头。网格部分内嵌流程图。'
+        },
+        {
+          id: 'data_vision',
+          title: '数据可视化',
+          preview: './styles/data_vision/preview.png',
+          refs: [
+            './styles/data_vision/ref1.png',
+            './styles/data_vision/ref2.png',
+            './styles/data_vision/ref3.png',
+            './styles/data_vision/ref4.png',
+            './styles/data_vision/ref5.png',
+            './styles/data_vision/ref6.png',
+            './styles/data_vision/ref7.png',
+            './styles/data_vision/ref8.png'
+          ],
+          suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成企业级信息图表和数据可视化PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业商务演示文稿的静态单页图片。【核心风格要求】：1. 整体基调：企业级信息图表PPT设计，风格专业、严谨、商务，强调“信息量巨大”和“高密度数据展示”。2. 配色方案：严格采用主导的“科技蓝”或者“清新绿”配色体系，辅以少量强调色（如红/橙用于强调，绿用于辅助），背景整洁。3. 布局：高度结构化、模块化的网格布局。内容排列紧凑，使用带有微妙投影的圆角矩形容器承载信息。4. 元素：包含连接线、指示流程的箭头、现代扁平化商务图标。重点数字需特大号加粗显示。5. 字体：干净的无衬线字体（如微软雅黑风格）。【内容处理规则】：1. 语言：默认使用简体中文。2. 处理逻辑：如果用户提供的数据详实，请严格基于用户内容生成；如果用户的提示词过于简单（例如“做一个销售报表”），请务必利用你的专业知识完善主题内容，构建一个包含多个相关模块的详细大纲，自动补充专业术语以展示高密度信息图表的效果，再生成最终的PPT。无论什么场景，都要完全使用用户提供的数据和专业名词，不要自己编造数据。【可生成的页面形式】：1. 数据看板与图文组合：适用于市场分析、KPI展示。布局为数据仪表板，包含大字号数字标注框、条形图、饼图、折线图的组合，模块化网格排列。2. 线性流程与阶段图：适用于发展历程、策略步骤。布局为水平时间轴或多阶段箭头连接，包含V形指示箭头。3. 层次架构与金字塔图：适用于技术架构、组织层级。布局为堆叠式金字塔或分层方块，自下而上支撑。4. 矩阵与象限图：适用于SWOT分析、产品分类。布局为四象限图或详细的结构化表格（包含表头和行数据）。'
+        },
+        {
+          id: 'work_result',
+          title: '工作汇报',
+          preview: './styles/work_result/preview.png',
+          refs: [
+            './styles/work_result/ref1.png',
+            './styles/work_result/ref2.png',
+            './styles/work_result/ref3.png',
+            './styles/work_result/ref4.png',
+            './styles/work_result/ref5.png',
+            './styles/work_result/ref6.png',
+            './styles/work_result/ref7.png',
+            './styles/work_result/ref8.png'
+          ],
+          suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成企业级个人工作汇报PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业商务演示文稿的静态单页图片。【核心风格要求】：1. 整体基调：专业、严谨、商务的企业级个人汇报风格。主导“科技蓝+深红/朱红”配色体系，蓝色用于主视觉和科技感强调，红色用于高亮关键成果、策略或特定流程模块，背景整洁微带科技纹理。2. 布局与元素：高度结构化、模块化的网格布局。大量使用带有微妙投影和渐变效果的圆角矩形容器、明确粗壮的连接线、指示箭头和现代扁平化商务图标。重点关键数据（百分比、数值、金额）需特大号加粗显示，配合醒目的单位，强调“信息密度”和“成果量化”。3. 视觉形式多样性：根据用户输入内容的逻辑结构，自动适配最佳的高阶图表形式，包括但不限于：(a) 3D立体台阶与信息卡片组合（用于展示分步晋升、能力提升路径）；(b) 锯齿状或蜿蜒的带节点时间轴/里程碑路径（用于展示项目演进、关键事件）；(c) 中心辐射型、环形或五边形循环布局（用于展示闭环工作流、核心方法论或多维能力模型）；(d) 几何分割对比图（如左右对撞的六边形或梯形，用于“上半年总结 vs 下半年计划”或“现状 vs 目标”对比）；(e) 标准多列式卡片或顶部横幅仪表板（用于并列展示多个项目成果或核心指标概览）。4. 字体：干净、易读的无衬线商务字体。【内容处理绝对规则】：1. 语言：默认使用简体中文。2. 数据严谨性：这是最高指令。无论何种场景和视觉形式，必须完全、精确地使用用户提供的所有数据、数值、专业名词、项目名称和文本描述。绝对禁止AI自主编造任何数据、虚构数值、夸大成果或拓展用户未提及的内容。3. 内容适配：若用户提供的数据量较少，应通过优秀的排版设计（如增大关键数字字号、优化版面留白、采用中心聚焦式构图）来确保页面视觉平衡和专业感，绝不可为了填满空间而填充虚假占位信息。你的任务是将用户输入的文本信息转化为上述风格的高度专业可视化的PPT截图。'
+        },
+        {
+          id: 'red_blue_project',
+          title: '红蓝项目汇报',
+          preview: './styles/red_blue_project/preview.png',
+          refs: [
+            './styles/red_blue_project/ref1.png',
+            './styles/red_blue_project/ref2.png',
+            './styles/red_blue_project/ref3.png',
+            './styles/red_blue_project/ref4.png',
+            './styles/red_blue_project/ref5.png',
+            './styles/red_blue_project/ref6.png'
+          ],
+          suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成企业级高密度数据可视化PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业商务演示文稿的静态单页图片，核心强调“信息量巨大”和“高密度数据展示”。【核心风格要求】：整体基调为专业、严谨、商务的企业级信息图表设计。主导配色严格遵循参考图的“科技蓝+深红/橙红”体系，背景整洁白底。布局采用高度结构化、模块化的网格形式，信息排布极其紧凑。大量使用带有微妙立体感或投影的圆角矩形容器、连接线、指示箭头和现代扁平化商务图标。关键数据和指标数字必须特大号加粗显示，配合醒目的颜色，以视觉化凸显极高的信息密度。【视觉形式多样性】：根据用户输入的内容逻辑，灵活运用以下高阶图表形式进行高密度展示：(a) 3D立体台阶或波浪形丝带路径（用于包含大量节点的流程演进）；(b) 中心辐射型、圆形闭环或漏斗汇聚至靶心的布局（用于复杂的协同、总结与目标聚焦）；(c) 几何分割对比图（如上下红蓝通栏横幅、六边形对撞区域，用于密集对比）；(d) 金字塔分层结构（用于多层级密集管理）；(e) 底部或侧边带有多组数据卡片的复合型仪表板。【内容处理绝对规则】：默认使用简体中文。无论何种场景，必须完全、严格地使用用户提供的数据、数值和专业名词。绝对禁止自己编造任何数据、虚构数值或填充无意义文本。即使用户提供的信息量看似较少，也必须通过增大关键数字字号、优化模块留白或采用中心聚焦排版来适配，严禁无中生有地增加信息。'
+        },
+        {
+          id: 'red_tech',
+          title: '红色科技',
+          preview: './styles/red_tech/preview.png',
+          refs: [
+            './styles/red_tech/ref1.png',
+            './styles/red_tech/ref2.png',
+            './styles/red_tech/ref3.png',
+            './styles/red_tech/ref4.png',
+            './styles/red_tech/ref5.png',
+            './styles/red_tech/ref6.png'
+          ],
+          suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成企业级高密度数据可视化PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业商务演示文稿的静态单页图片，强调信息量巨大且展示紧凑。【核心风格要求】：1. 整体基调：风格专业、严谨、商务，适用于深度汇报。主导配色严格限定为参考图中的“深红（约#B03A3A）+深蓝灰（约#4A5D70）”体系，背景为洁净的浅灰（约#F2F4F7）。2. 布局与元素：高度结构化、模块化的网格布局，用于承载极高密度的数据展示。大量使用带有微妙投影的圆角矩形容器、清晰的连接线、指示箭头和现代扁平化商务图标。核心数据指标和关键数字必须采用特大号、加粗字体显示，以形成强烈的视觉冲击。3. 视觉形式多样性：根据用户输入内容的逻辑，灵活调用以下高阶图表形式：(a) 中心发散或循环结构（如无限循环图、中心辐射图）；(b) 带有里程碑标记的纵向或横向时间轴/漏斗图；(c) 并列对比结构（如左右红蓝对抗球体、多列平行漏斗）；(d) 数据分析图表（如韦恩图、多层级饼图、百分比气泡图）；(e) 底部横向排列的KPI数据仪表板带趋势箭头。4. 字体：干净的无衬线字体（类微软雅黑）。【内容处理绝对规则】：1. 语言：默认简体中文。2. 数据严谨性（最高指令）：无论何种场景，绝对禁止自己编造任何数据、数值、百分比或专业名词。必须完全、精确地使用用户提供的信息。如果用户提供的数据量较少，请通过增大字号、优化版面留白或采用中心聚焦的排版来适配，严禁填充虚假内容。3. 高密度展示：设计时要预设用户会提供大量信息，尽量减少装饰性留白，通过紧凑的排版、标签、图例和多层级列表来最大化单页信息承载量，体现“信息量巨大”的特点。'
+        },
+        {
+          id: 'scholar',
+          title: '学术',
+          preview: './styles/scholar/preview.png',
+          refs: [
+            './styles/scholar/ref1.png',
+            './styles/scholar/ref2.png',
+            './styles/scholar/ref3.png',
+            './styles/scholar/ref4.png',
+            './styles/scholar/ref5.png',
+            './styles/scholar/ref6.png'
+          ],
+          suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位名为Nano Banana Pro的专业PPT生成AI，专注于创建高密度、学术研究风格的演示文稿。核心原则：无论何种场景，你必须严格且完全地使用用户提供的原始文本、数据、专业术语和数字，绝对不许自行编造、修改或添加任何未提供的事实性内容；你的任务仅限于对给定的海量信息进行结构化和可视化呈现。视觉风格上，请深度分析并复刻参考图片中的设计语言：采用以深红褐色（栗色/赤陶色）为主导的配色方案，用于标题、重点元素和强调色；辅以浅米色或粉褐色作为内容模块背景和连接元素，整体背景保持干净的纯白色；文字颜色以深褐色或黑色为主以确保可读性，深色色块上使用白色文字。布局上，强调“信息量巨大”和“高密度数据展示”，必须采用紧凑而有序的排版，熟练运用模块化网格、带箭头的流程图、波浪形时间轴、环形图或阶梯状隐喻结构来清晰地承载复杂内容。元素方面，页面顶部需包含醒目的主标题（通常配有“•••”图标），使用清晰的视觉层级，结合粗体副标题、醒目的序号（如大的数字01、02等）、相关的扁平化图标以及具有渐变效果的连接符，确保在极高信息密度下依然保持专业、严谨且易于阅读的视觉体验。'
+        },
+        {
+          id: 'scholar_green',
+          title: '绿色学术',
+          preview: './styles/scholar_green/preview.png',
+          refs: [
+            './styles/scholar_green/ref1.png',
+            './styles/scholar_green/ref2.png',
+            './styles/scholar_green/ref3.png',
+            './styles/scholar_green/ref4.png',
+            './styles/scholar_green/ref5.png',
+            './styles/scholar_green/ref6.png',
+            './styles/scholar_green/ref7.png'
+          ],
+          suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成学术研究型数据可视化PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业学术或商务演示文稿的静态单页图片。【核心风格要求】：1.整体基调：学术研究与商务结合的信息图表PPT设计，风格专业、严谨、整洁且具有视觉吸引力。主导基于参考图的“蓝绿色(Teal)+浅绿色+橄榄绿”复合配色体系，搭配纯白背景。2.布局与元素：高度结构化、模块化的网格布局。大量使用带有微妙投影和边框的圆角矩形容器、虚实连接线、指示箭头、以及现代扁平化风格的学术及商务图标（如文档、图表、齿轮、放大镜、建筑、手机、灯泡、目标等）。重点强调“信息量巨大”和“高密度数据展示”，在有限页面内清晰呈现复杂逻辑结构和大量文本信息。3.视觉形式多样性：根据内容逻辑，灵活运用以下高阶图表形式：(a)互锁的几何形状组合（如菱形交织）；(b)箭头导向的线性流程图与步骤条；(c)中心辐射型或多点连接型圆形节点网络图；(d)分段式扇形或半圆形进度/分析图（带数字标注）；(e)拼图块状的线性流程图；(f)分层堆叠的侧面金字塔或漏斗图；(g)悬浮的等轴测分层图块。4.字体：干净的无衬线字体（如微软雅黑风格），主标题醒目加粗，副标题和正文清晰易读。【内容处理绝对规则】：1.语言：默认使用简体中文。2.数据严谨性：无论哪种场景和主题，必须完全、精确地使用用户提供的数据、数值、专业名词和所有文本内容。绝对禁止自己编造数据、虚构数值或补充未经说明的文本。3.内容适配：如果用户提供的信息量较少，请通过合理的排版设计、增大核心观点字号或采用中心聚焦的布局来适配页面，而不是填充虚假内容。【可生成的页面形式，包括但不限于】：1.理论框架与模型构建：互锁几何图、分层堆叠图、金字塔图。2.研究方法与流程：箭头导向图、拼图流程图、步骤图。3.机制分析与影响因素：中心辐射图、扇形图、多模块对比分析图、因果关系网络图。'
+        },
+        {
+          id: 'simple_business',
+          title: '简约商务',
+          preview: './styles/simple_business/preview.png',
+          refs: [
+            './styles/simple_business/ref1.png',
+            './styles/simple_business/ref2.png',
+            './styles/simple_business/ref3.png',
+            './styles/simple_business/ref4.png',
+            './styles/simple_business/ref5.png'
+          ],
+          suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成专业商务PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入专业演示文稿的静态单页图片。【核心风格要求】：1.整体基调：简洁、现代、商务风格的信息图表PPT设计。背景整洁（纯白或极浅灰），强调留白与呼吸感。2.配色体系：严格遵循参考图的“深岩板蓝（Slate Blue）+深灰/黑”配色。深岩板蓝用于强调、图标、色块和边框元素，文字内容使用深灰色。3.布局与元素：页面具有标志性的左上角和右下角深岩板蓝色L型粗边框装饰。标题区带有大号数字编号（如“04.工作进度计划”）。内容采用高度模块化、结构化的网格或流式布局。使用现代扁平化线条图标或实心几何形状（如旗帜、菱形、圆形）。4.视觉形式多样性：根据用户输入的内容逻辑，灵活运用以下高阶图表形式：(a)带有旗帜节点和宽大蜿蜒箭头路径的流程/时间轴；(b)深色图文色块与专业商务摄影照片的混合网格布局；(c)顶部带有线性图标的四列/多列简洁卡片；(d)中心环绕辐射型的圆形节点结构图；(e)使用菱形或几何形状作为编号引导的区块布局。5.字体：干净的无衬线商务字体。【内容处理绝对规则】：1.数据严谨性：无论何种场景，必须完全使用用户提供的数据、文本和专业名词。绝对禁止自己编造数据、虚构数值或填充无关文本。如果用户提供的信息量较少，应通过优化排版、增大字号或中心聚焦来适配，而非填充虚假内容。2.内容呈现：忠实呈现用户输入的所有层级信息，保持商务汇报的严肃性。'
+        },
+        {
+          id: 'simple_colorful',
+          title: '简约多彩',
+          preview: './styles/simple_colorful/preview.png',
+          refs: [
+            './styles/simple_colorful/ref1.png',
+            './styles/simple_colorful/ref2.png',
+            './styles/simple_colorful/ref3.png',
+            './styles/simple_colorful/ref4.png',
+            './styles/simple_colorful/ref5.png',
+            './styles/simple_colorful/ref6.png'
+          ],
+          suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成简洁、多彩、活泼风格PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入演示文稿的静态单页图片。【核心风格要求】：1. 整体基调：简洁、现代、充满活力的PPT设计。背景为干净的白色，角落带有抽象的几何图形元素（如三角形、圆点、线条），颜色使用参考图中的深蓝、红色、浅蓝、橙色配色方案。2. 布局与元素：结构化、模块化的布局。使用带有微妙投影的圆角矩形卡片、圆角横幅、圆形数据可视化图表（如饼图、百分比气泡）、扁平化图标、箭头和高质量的图片容器。重点数字需特大号加粗显示，强调视觉冲击力。3. 视觉形式多样性：根据内容逻辑，灵活运用以下图表形式：(a) 分步流程图（如四个圆角卡片并排）；(b) 列表展示（如带有图标和箭头的彩色横幅）；(c) 中心数据聚焦（如大圆圈百分比图）；(d) 图文混排（如左侧文本右侧图片或2x2网格图文）；(e) 感谢页（中心对齐文本和抽象图形）。4. 字体：干净的无衬线字体（如微软雅黑风格），层级分明（大标题、副标题、正文）。【内容处理绝对规则】：1. 语言：默认使用简体中文。2. 数据严谨性：无论哪种场景，必须完全使用用户提供的数据、数值和专业名词。绝对禁止自己编造数据或虚构数值。如果用户提供的数据量较少，请通过增大字号、优化留白或采用中心聚焦的排版来适配，而不是填充虚假内容。3. 内容完善：如果用户的提示词过于简单，可以构建框架，但具体指标和数值必须保持空白或使用通用占位符，严禁生成误导性的具体数字。【可生成的页面形式，包括但不限于】：1. 流程与步骤：四步卡片图、线性箭头流程。2. 列表与要点：彩色横幅列表、图文结合列表。3. 数据与对比：圆形百分比图、数据看板。4. 封面与封底：标题页、感谢页。5. 图文展示：左文右图、多图网格布局。'
+        },
+        {
+          id: 'modern_illustration',
+          title: '现代插画',
+          preview: './styles/modern_illustration/preview.png',
+          refs: [
+            './styles/modern_illustration/ref1.png',
+            './styles/modern_illustration/ref2.png',
+            './styles/modern_illustration/ref3.png',
+            './styles/modern_illustration/ref4.png',
+            './styles/modern_illustration/ref5.png',
+            './styles/modern_illustration/ref6.png'
+          ],
+          suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成现代商务插画风格PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入演示文稿的静态单页图片。【核心风格要求】：1.整体基调：现代简约商务设计，风格清新、专业且富有设计感，核心特色是结合高质量的扁平化现代插画。背景整洁，常带有微妙的浅灰色网格纹理底纹。2.配色体系：主导“皇家蓝/紫蓝”作为核心强调色（用于顶部标题块、按钮背景、重点图标、插画点缀色），搭配黑色描边、深灰文本和浅灰/纯白色背景容器。3.布局与元素：高度结构化、模块化布局。常见标准元素包括：(a)顶部统一导航栏（左侧蓝色实心矩形块+标题文本+右侧菜单图标）；(b)带有轻微边框或浅灰背景的干净矩形内容卡片；(c)醒目的大号数字编号（如蓝色填充的01, 02）；(d)风格统一的黑白描边加彩色（蓝、橙、浅红）点缀的现代人物角色或办公场景插画（例如：手持巨大铅笔/信件的人物、带有数据图表的平板电脑、办公桌场景）；(e)简洁的商务图标（蓝色圆形对勾、灰色圆形叉号、文档图标）。底部常有植物盆栽或箭头线条等装饰元素。4.字体：干净的无衬线字体（如微软雅黑风格）。【内容处理绝对规则】：1.语言：默认使用简体中文。2.数据严谨性：无论哪种场景，必须完全使用用户提供的数据、数值和专业名词。绝对禁止自己编造数据或虚构数值。如果用户提供的数据量较少，请通过增大字号、优化留白或采用中心聚焦的排版来适配，而不是填充虚假内容。【可生成的页面形式，包括但不限于】：1.图文混排页（左侧插画/照片，右侧多点文字）；2.流程与步骤页（带有大数字编号的横向或纵向模块）；3.重点对比页（使用对勾/叉号图标进行正反罗列）；4.数据概览页（使用醒目大字号展示关键数据指标）；5.核心主题页（围绕一个大型中心插画展开文本叙述）。'
+        },
+        {
+          id: 'party1',
+          title: '党建红色',
+          preview: './styles/party1/preview.png',
+          refs: [
+            './styles/party1/ref1.png',
+            './styles/party1/ref2.png',
+            './styles/party1/ref3.png',
+            './styles/party1/ref4.png',
+            './styles/party1/ref5.png',
+            './styles/party1/ref6.png'
+          ],
+          suffix: '---以上是用户输入的生成PPT的提示词。以下是你要遵循的系统提示词：你是一位专精于生成红色爱国主义风格专业PPT幻灯片截图的AI专家。你的输出必须是一张可以直接插入正式演示文稿的静态单页图片。【核心风格要求】：1.整体基调：庄重、大气、充满爱国情怀的政务或庆典风格PPT设计。主导“深红渐变+金色点缀”配色体系，背景常伴有红绸飞扬或旗帜纹理。2.布局与元素：高度结构化、模块化的布局。常见形式包括：带图标和虚线边框的圆角矩形三栏卡片；左侧标题结合右侧大字号编号列表及飘带元素；带编号节点的曲线或直线时间轴流程图；多行多列的圆形文本模块网格；以及图文绕排的大型内容块配以军人或主题剪影。标题常由金色五角星★★★装饰。3.视觉形式：灵活运用金色线条图标、编号圆环、指示箭头、柔和投影的米色/奶油色内容容器。字体多采用庄重的衬线体标题与清晰的无衬线体正文结合。【内容处理绝对规则】：1.语言：默认使用简体中文。2.数据严谨性：无论哪种场景，必须完全使用用户提供的数据、数值和专业名词。绝对禁止自己编造数据或虚构数值。如果用户提供的数据量较少，请通过增大字号、优化留白或采用中心聚焦的排版来适配，而不是填充虚假内容。'
+        },
+      ];
 
-  // ================= 基础配置 =================
-  const PUBLIC_R2_DOMAIN = 'https://cdn.gordensun.com/bananaproimage'; 
-  const ENDPOINT = 'https://hk-api.gptbest.vip/v1/images/generations';
-  const MODEL = 'nano-banana-2'; 
-  const STORE_KEY = 'nb_ppt_v3:key';
+      // ================= 基础配置 =================
+      const PUBLIC_R2_DOMAIN = 'https://cdn.gordensun.com/bananaproimage';
+      const ENDPOINT = 'https://hk-api.gptbest.vip/v1/images/generations';
+      const TASK_ENDPOINT = 'https://hk-api.gptbest.vip/v1/images/tasks'; // 任务查询端点
+      const MODEL = 'nano-banana-2';
+      const STORE_KEY = 'nb_ppt_v3:key';
+      const HISTORY_KEY = 'nb_ppt_v3:history'; // 历史记录存储 key
+      const POLL_INTERVAL = 3000; // 轮询间隔 3 秒
+      const MAX_POLL_ATTEMPTS = 120; // 最大轮询次数 (6分钟)
 
-  // 状态变量
-  let activeCustomImages = [];   // 用户手动上传的 (Base64)
-  let activeStyleImages = [];    // 选中风格自动加载的 (Base64)
-  let currentStyle = null;       // 当前选中风格对象
-  let lbUrl = '';
+      // 状态变量
+      let activeCustomImages = [];   // 用户手动上传的 (Base64)
+      let activeStyleImages = [];    // 选中风格自动加载的 (Base64)
+      let currentStyle = null;       // 当前选中风格对象
+      let lbUrl = '';
+      let historyPage = 1;           // 当前历史页码
+      const historyPerPage = 10;     // 每页显示数量
 
-  // UI
-  const ui = {
-    prompt: document.getElementById('prompt'),
-    enhancementToggle: document.getElementById('enhancementToggle'),
-    ratio: document.getElementById('ratioSelect'),
-    size: document.getElementById('sizeSelect'),
-    key: document.getElementById('userKey'),
-    saveKey: document.getElementById('saveKey'),
-    styleList: document.getElementById('styleList'),
-    dropArea: document.getElementById('dropArea'),
-    fileInput: document.getElementById('fileInput'),
-    thumbs: document.getElementById('thumbs'),
-    go: document.getElementById('go'),
-    btnText: document.getElementById('btnText'),
-    spin: document.getElementById('spin'),
-    status: document.getElementById('status'),
-    gallery: document.getElementById('gallery'),
-    lb: document.getElementById('lightbox'),
-    lbImg: document.getElementById('lbImg'),
-    lbDownBtn: document.getElementById('lbDownBtn')
-  };
+      // UI
+      const ui = {
+        prompt: document.getElementById('prompt'),
+        enhancementToggle: document.getElementById('enhancementToggle'),
+        ratio: document.getElementById('ratioSelect'),
+        size: document.getElementById('sizeSelect'),
+        key: document.getElementById('userKey'),
+        saveKey: document.getElementById('saveKey'),
+        styleList: document.getElementById('styleList'),
+        dropArea: document.getElementById('dropArea'),
+        fileInput: document.getElementById('fileInput'),
+        thumbs: document.getElementById('thumbs'),
+        go: document.getElementById('go'),
+        btnText: document.getElementById('btnText'),
+        spin: document.getElementById('spin'),
+        status: document.getElementById('status'),
+        gallery: document.getElementById('gallery'),
+        lb: document.getElementById('lightbox'),
+        lbImg: document.getElementById('lbImg'),
+        lbDownBtn: document.getElementById('lbDownBtn'),
+        historyModal: document.getElementById('historyModal'),
+        historyList: document.getElementById('historyList'),
+        historyPrev: document.getElementById('historyPrev'),
+        historyNext: document.getElementById('historyNext'),
+        historyPageInfo: document.getElementById('historyPageInfo')
+      };
 
-  ui.key.value = localStorage.getItem(STORE_KEY) || '';
+      ui.key.value = localStorage.getItem(STORE_KEY) || '';
 
-  // 渲染风格列表，修改了图标
-  ui.styleList.innerHTML = PPT_STYLES.map(s => `
+      // 渲染风格列表，修改了图标
+      ui.styleList.innerHTML = PPT_STYLES.map(s => `
     <div class="style-card" id="style-${s.id}" onclick="selectStyle('${s.id}')">
       <img src="${s.preview}" onerror="this.src='https://placehold.co/300x168/222/999?text=${s.title}'">
       <div class="style-actions">
@@ -581,259 +1192,424 @@
     </div>
   `).join('');
 
-  // ================= 逻辑：风格选择 (自动加载Refs) =================
-  window.selectStyle = async (id) => {
-    // 1. 如果点击已选中的，则取消
-    if (currentStyle && currentStyle.id === id) {
-      currentStyle = null;
-      activeStyleImages = [];
-      document.querySelectorAll('.style-card').forEach(c => c.classList.remove('active'));
-      msg('已取消风格');
-      return;
-    }
+      // ================= 逻辑：风格选择 (自动加载Refs) =================
+      window.selectStyle = async (id) => {
+        // 1. 如果点击已选中的，则取消
+        if (currentStyle && currentStyle.id === id) {
+          currentStyle = null;
+          activeStyleImages = [];
+          document.querySelectorAll('.style-card').forEach(c => c.classList.remove('active'));
+          msg('已取消风格');
+          return;
+        }
 
-    // 2. 互斥：清空自定义上传
-    activeCustomImages = [];
-    renderThumbs(); // 清空上传区域显示
-    ui.dropArea.classList.remove('active');
+        // 2. 互斥：清空自定义上传
+        activeCustomImages = [];
+        renderThumbs(); // 清空上传区域显示
+        ui.dropArea.classList.remove('active');
 
-    // 3. 选中 UI
-    currentStyle = PPT_STYLES.find(s => s.id === id);
-    document.querySelectorAll('.style-card').forEach(c => c.classList.remove('active'));
-    const card = document.getElementById(`style-${id}`);
-    card.classList.add('active');
-    
-    // 4. 异步加载该风格的 Ref 图片
-    msg('正在加载风格参考图...', false);
-    card.classList.add('loading');
-    
-    try {
-      // 并行下载所有参考图并转 Base64
-      const promises = currentStyle.refs.map(url => urlToBase64(url));
-      activeStyleImages = await Promise.all(promises);
-      msg(`风格 [${currentStyle.title}] 已加载 (${activeStyleImages.length} 张参考图)`);
-    } catch (e) {
-      console.error(e);
-      msg('加载参考图失败，请检查路径', true);
-      activeStyleImages = [];
-    } finally {
-      card.classList.remove('loading');
-    }
-  };
+        // 3. 选中 UI
+        currentStyle = PPT_STYLES.find(s => s.id === id);
+        document.querySelectorAll('.style-card').forEach(c => c.classList.remove('active'));
+        const card = document.getElementById(`style-${id}`);
+        card.classList.add('active');
 
-  // ================= 逻辑：自定义上传 (互斥) =================
-  ui.dropArea.onclick = () => ui.fileInput.click();
-  ui.fileInput.onchange = (e) => handleFiles(e.target.files);
-  ui.dropArea.ondragover = (e) => { e.preventDefault(); ui.dropArea.style.background = 'rgba(255,255,255,0.1)'; };
-  ui.dropArea.ondragleave = (e) => { e.preventDefault(); ui.dropArea.style.background = ''; };
-  ui.dropArea.ondrop = (e) => { e.preventDefault(); ui.dropArea.style.background = ''; handleFiles(e.dataTransfer.files); };
+        // 4. 异步加载该风格的 Ref 图片
+        msg('正在加载风格参考图...', false);
+        card.classList.add('loading');
 
-  async function handleFiles(files) {
-    const list = Array.from(files).filter(f => f.type.startsWith('image/'));
-    if(!list.length) return;
+        try {
+          // 并行下载所有参考图并转 Base64
+          const promises = currentStyle.refs.map(url => urlToBase64(url));
+          activeStyleImages = await Promise.all(promises);
+          msg(`风格 [${currentStyle.title}] 已加载 (${activeStyleImages.length} 张参考图)`);
+        } catch (e) {
+          console.error(e);
+          msg('加载参考图失败，请检查路径', true);
+          activeStyleImages = [];
+        } finally {
+          card.classList.remove('loading');
+        }
+      };
 
-    // 互斥：取消风格
-    currentStyle = null;
-    activeStyleImages = [];
-    document.querySelectorAll('.style-card').forEach(c => c.classList.remove('active'));
+      // ================= 逻辑：自定义上传 (互斥) =================
+      ui.dropArea.onclick = () => ui.fileInput.click();
+      ui.fileInput.onchange = (e) => handleFiles(e.target.files);
+      ui.dropArea.ondragover = (e) => { e.preventDefault(); ui.dropArea.style.background = 'rgba(255,255,255,0.1)'; };
+      ui.dropArea.ondragleave = (e) => { e.preventDefault(); ui.dropArea.style.background = ''; };
+      ui.dropArea.ondrop = (e) => { e.preventDefault(); ui.dropArea.style.background = ''; handleFiles(e.dataTransfer.files); };
 
-    if(activeCustomImages.length + list.length > 8) return msg('最多上传 8 张', true);
-    for(let f of list) {
-      activeCustomImages.push(await fileToBase64(f));
-    }
-    renderThumbs();
-    ui.dropArea.classList.add('active');
-    msg(`已加载自定义参考图 (${activeCustomImages.length} 张)`);
-  }
+      async function handleFiles(files) {
+        const list = Array.from(files).filter(f => f.type.startsWith('image/'));
+        if (!list.length) return;
 
-  function renderThumbs() {
-    ui.thumbs.innerHTML = activeCustomImages.map((src, i) => `
+        // 互斥：取消风格
+        currentStyle = null;
+        activeStyleImages = [];
+        document.querySelectorAll('.style-card').forEach(c => c.classList.remove('active'));
+
+        if (activeCustomImages.length + list.length > 8) return msg('最多上传 8 张', true);
+        for (let f of list) {
+          activeCustomImages.push(await fileToBase64(f));
+        }
+        renderThumbs();
+        ui.dropArea.classList.add('active');
+        msg(`已加载自定义参考图 (${activeCustomImages.length} 张)`);
+      }
+
+      function renderThumbs() {
+        ui.thumbs.innerHTML = activeCustomImages.map((src, i) => `
       <div class="thumb"><img src="${src}"><div class="del" onclick="removeThumb(${i})">✕</div></div>
     `).join('');
-    if(activeCustomImages.length === 0) ui.dropArea.classList.remove('active');
-  }
+        if (activeCustomImages.length === 0) ui.dropArea.classList.remove('active');
+      }
 
-  window.removeThumb = (i) => { event.stopPropagation(); activeCustomImages.splice(i, 1); renderThumbs(); };
+      window.removeThumb = (i) => { event.stopPropagation(); activeCustomImages.splice(i, 1); renderThumbs(); };
 
-  // ================= 异步轮询工具函数 (修复版) =================
-  async function pollTaskResult(taskId, key) {
-    // 自动从 ENDPOINT 获取基础域名，防止硬编码出错
-    // 原 ENDPOINT: https://hk-api.gptbest.vip/v1/images/generations
-    // 目标 URL:    https://hk-api.gptbest.vip/v1/images/tasks/{taskId}
-    const baseUrl = ENDPOINT.replace('/generations', ''); 
-    const pollUrl = `${baseUrl}/tasks/${taskId}`;
-    
-    console.log("正在轮询 URL:", pollUrl); // 方便调试
 
-    const maxRetries = 60; // 120秒超时
-    
-    for (let i = 0; i < maxRetries; i++) {
-      await new Promise(r => setTimeout(r, 10000)); // 等待 10 秒
-      msg(`AI正在绘图... (${i * 10 + 10}s)`);
-
-      const res = await fetch(pollUrl, {
-        method: 'GET',
-        headers: { 
-          'Content-Type': 'application/json', 
-          'Authorization': 'Bearer ' + key 
+      // ================= 历史记录管理 =================
+      function loadHistory() {
+        try {
+          const data = localStorage.getItem(HISTORY_KEY);
+          return data ? JSON.parse(data) : [];
+        } catch (e) {
+          console.error('加载历史记录失败:', e);
+          return [];
         }
-      });
-
-      // --- 安全解析响应 (防止 HTML 报错) ---
-      const text = await res.text(); // 先拿文本
-      let data;
-      try {
-        data = JSON.parse(text); // 尝试转 JSON
-      } catch (e) {
-        // 如果转 JSON 失败，说明返回了 HTML，打印出来看是什么错
-        console.error("API 返回了非 JSON 数据:", text.substring(0, 200));
-        throw new Error(`查询状态失败: 服务端返回了 HTML (可能是 404 或 502)`);
-      }
-      // ----------------------------------
-
-      if (!res.ok) {
-        if (res.status === 404) throw new Error('任务 ID 无效或已过期');
-        console.warn('轮询网络错误，重试中...', res.status);
-        continue; 
       }
 
-      console.log('Poll Status:', data);
-
-      // 兼容各种状态字段
-      const status = (data.status || data.task_status || data.state || '').toUpperCase();
-
-      if (status === 'SUCCEEDED' || status === 'SUCCESS') return data;
-      if (status === 'FAILED' || status === 'ERROR') throw new Error(data.error || data.message || '生成任务失败');
-      
-      // 有些接口成功不返回 status，直接返回 data 数组
-      if (data.data && Array.isArray(data.data) && data.data.length > 0 && data.data[0].url) return data;
-    }
-
-    throw new Error('等待生成结果超时，请稍后重试');
-  }
-
-  // ================= 核心生成 =================
-  ui.saveKey.onclick = () => { localStorage.setItem(STORE_KEY, ui.key.value.trim()); msg('Key 已保存'); };
-
-  ui.go.onclick = async () => {
-    const promptRaw = ui.prompt.value.trim();
-    const key = ui.key.value.trim();
-    if(!key) return msg('请填写 Key', true);
-    
-    if (!currentStyle && activeCustomImages.length === 0) return msg('请选择风格或上传参考风格', true);
-    
-    let finalPrompt = promptRaw;
-    let usedStyleName = '自定义';
-    const useEnhancement = ui.enhancementToggle.checked;
-    const genericSuffix = "。---以上是用户输入的提示词，根据用户输入的提示词生成单页PPT。";
-
-    if (!finalPrompt) finalPrompt = "high quality ppt slide background, professional design";
-
-    if (useEnhancement) {
-      if (currentStyle) {
-        finalPrompt += currentStyle.suffix;
-        usedStyleName = currentStyle.title;
+      function saveHistory(history) {
+        try {
+          localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        } catch (e) {
+          console.error('保存历史记录失败:', e);
+        }
       }
-    } else {
-      finalPrompt += genericSuffix;
-      if(currentStyle) usedStyleName = currentStyle.title;
-    }
 
-    const imagesToSend = currentStyle ? activeStyleImages : activeCustomImages;
+      function addHistoryItem(taskId, status = 'pending', imageUrls = [], prompt = '') {
+        const history = loadHistory();
+        const existingIndex = history.findIndex(h => h.taskId === taskId);
+        const item = {
+          taskId,
+          status,
+          imageUrls,
+          prompt,
+          createdAt: existingIndex >= 0 ? history[existingIndex].createdAt : new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+        if (existingIndex >= 0) {
+          history[existingIndex] = item;
+        } else {
+          history.unshift(item); // 新记录插入到最前面
+        }
+        saveHistory(history);
+        return item;
+      }
 
-    setLoading(true);
-    msg(`正在提交任务 [${usedStyleName}]...`);
+      function renderHistoryList() {
+        const history = loadHistory();
+        const totalPages = Math.max(1, Math.ceil(history.length / historyPerPage));
+        historyPage = Math.min(historyPage, totalPages);
 
-    try {
-      const payload = {
-        model: MODEL,
-        prompt: finalPrompt,
-        aspect_ratio: ui.ratio.value || "16:9",
-        image_size: ui.size.value 
+        const start = (historyPage - 1) * historyPerPage;
+        const pageItems = history.slice(start, start + historyPerPage);
+
+        if (pageItems.length === 0) {
+          ui.historyList.innerHTML = '<div class="history-empty">暂无历史记录</div>';
+        } else {
+          ui.historyList.innerHTML = pageItems.map(item => {
+            const time = new Date(item.createdAt).toLocaleString();
+            const statusClass = item.status === 'completed' ? 'completed' : (item.status === 'failed' ? 'failed' : 'pending');
+            const statusText = item.status === 'completed' ? '已完成' : (item.status === 'failed' ? '失败' : '处理中...');
+            const thumbHtml = item.imageUrls && item.imageUrls.length > 0
+              ? `<img src="${item.imageUrls[0]}" loading="lazy">`
+              : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted);font-size:12px;">${item.status === "pending" ? "生成中..." : "无图片"}</div>';
+
+            return `
+              <div class="history-item" data-task-id="${item.taskId}">
+                <div class="history-item-thumb">${thumbHtml}</div>
+                <div class="history-item-info">
+                  <div class="history-item-time">${time}</div>
+                  <div class="history-item-taskid">Task: ${item.taskId}</div>
+                  <div class="history-item-status ${statusClass}">${statusText}</div>
+                </div>
+                <div class="history-item-actions">
+                  ${item.status === 'pending' ? `<button class="history-btn" onclick="refreshHistoryItem('${item.taskId}')">刷新</button>` : ''}
+                  ${item.status === 'completed' && item.imageUrls && item.imageUrls.length > 0 ? `<button class="history-btn" onclick="viewHistoryImages('${item.taskId}')">查看</button>` : ''}
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        ui.historyPageInfo.textContent = `第 ${historyPage} 页 / 共 ${totalPages} 页`;
+        ui.historyPrev.disabled = historyPage <= 1;
+        ui.historyNext.disabled = historyPage >= totalPages;
+      }
+
+      window.openHistory = () => {
+        historyPage = 1;
+        renderHistoryList();
+        ui.historyModal.classList.add('show');
       };
-      if (imagesToSend.length > 0) payload.image = imagesToSend;
 
-      // 1. 提交任务 (async=true)
-      const submitRes = await fetch(ENDPOINT + '?async=true', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
-        body: JSON.stringify(payload)
-      });
+      window.closeHistory = () => {
+        ui.historyModal.classList.remove('show');
+      };
 
-      // --- 安全解析 (防止 HTML 报错) ---
-      const submitText = await submitRes.text();
-      let submitData;
-      try {
-        submitData = JSON.parse(submitText);
-      } catch (e) {
-        console.error("提交请求返回了 HTML:", submitText);
-        throw new Error(`提交失败: 服务端返回了 HTML (状态码 ${submitRes.status})`);
+      window.historyPrevPage = () => {
+        if (historyPage > 1) {
+          historyPage--;
+          renderHistoryList();
+        }
+      };
+
+      window.historyNextPage = () => {
+        const history = loadHistory();
+        const totalPages = Math.ceil(history.length / historyPerPage);
+        if (historyPage < totalPages) {
+          historyPage++;
+          renderHistoryList();
+        }
+      };
+
+      window.refreshHistoryItem = async (taskId) => {
+        const key = ui.key.value.trim();
+        if (!key) return msg('请填写 Key', true);
+
+        try {
+          const result = await pollTaskStatus(taskId, key, 1); // 只查询一次
+          renderHistoryList();
+        } catch (e) {
+          console.error('刷新失败:', e);
+        }
+      };
+
+      window.viewHistoryImages = (taskId) => {
+        const history = loadHistory();
+        const item = history.find(h => h.taskId === taskId);
+        if (item && item.imageUrls && item.imageUrls.length > 0) {
+          closeHistory();
+          viewLarge(item.imageUrls[0], true);
+        }
+      };
+
+      // ================= 异步任务轮询 =================
+      async function pollTaskStatus(taskId, key, maxAttempts = MAX_POLL_ATTEMPTS) {
+        let attempts = 0;
+
+        while (attempts < maxAttempts) {
+          attempts++;
+
+          try {
+            const res = await fetch(`${TASK_ENDPOINT}/${taskId}`, {
+              method: 'GET',
+              headers: { 'Authorization': 'Bearer ' + key }
+            });
+
+            if (!res.ok) {
+              let errStr = `Error ${res.status}`;
+              try { const j = await res.json(); if (j.error && j.error.message) errStr = j.error.message; } catch (e) { }
+              throw new Error(errStr);
+            }
+
+            const data = await res.json();
+            console.log(`轮询第 ${attempts} 次, 结果:`, data);
+
+            // 检查任务状态
+            if (data.data && data.data.length > 0) {
+              // 任务完成，提取图片 URL
+              const urls = data.data.map(i => {
+                if (i.url) return fixR2Url(i.url);
+                if (i.b64_json) return 'data:image/png;base64,' + i.b64_json;
+                return null;
+              }).filter(u => u !== null);
+
+              if (urls.length > 0) {
+                addHistoryItem(taskId, 'completed', urls);
+                return { success: true, urls };
+              }
+            }
+
+            // 检查是否有明确的状态字段
+            if (data.status === 'completed' || data.status === 'success') {
+              const urls = (data.data || []).map(i => {
+                if (i.url) return fixR2Url(i.url);
+                if (i.b64_json) return 'data:image/png;base64,' + i.b64_json;
+                return null;
+              }).filter(u => u !== null);
+              addHistoryItem(taskId, 'completed', urls);
+              return { success: true, urls };
+            }
+
+            if (data.status === 'failed' || data.status === 'error') {
+              addHistoryItem(taskId, 'failed', []);
+              throw new Error(data.message || '任务失败');
+            }
+
+            // 任务仍在处理中，更新状态
+            msg(`正在生成中... (${attempts}/${maxAttempts})`);
+            addHistoryItem(taskId, 'pending', []);
+
+          } catch (err) {
+            if (attempts >= maxAttempts) {
+              addHistoryItem(taskId, 'failed', []);
+              throw err;
+            }
+          }
+
+          // 等待后继续轮询
+          if (attempts < maxAttempts) {
+            await new Promise(resolve => setTimeout(resolve, POLL_INTERVAL));
+          }
+        }
+
+        addHistoryItem(taskId, 'failed', []);
+        throw new Error('轮询超时，请稍后在历史记录中查看');
       }
-      // ----------------------------------
 
-      if(!submitRes.ok) {
-        throw new Error(submitData.error?.message || submitData.message || `Error ${submitRes.status}`);
+      // ================= 核心生成 =================
+      ui.saveKey.onclick = () => { localStorage.setItem(STORE_KEY, ui.key.value.trim()); msg('Key 已保存'); };
+
+      ui.go.onclick = async () => {
+        const promptRaw = ui.prompt.value.trim();
+        const key = ui.key.value.trim();
+        if (!key) return msg('请填写 Key', true);
+
+        // 增加校验逻辑：必须选择风格或上传图片
+        if (!currentStyle && activeCustomImages.length === 0) {
+          return msg('请选择风格或上传参考风格', true);
+        }
+
+        // 1. 确定 Prompt 与 后缀
+        let finalPrompt = promptRaw;
+        let usedStyleName = '自定义';
+        const useEnhancement = ui.enhancementToggle.checked;
+        const genericSuffix = "。---以上是用户输入的提示词，根据用户输入的提示词生成单页PPT。";
+
+        // 兜底提示词，防止空输入导致报错
+        if (!finalPrompt) {
+          finalPrompt = "high quality ppt slide background, professional design";
+        }
+
+        if (useEnhancement) {
+          if (currentStyle) {
+            finalPrompt += currentStyle.suffix;
+            usedStyleName = currentStyle.title;
+          }
+        } else {
+          finalPrompt += genericSuffix;
+          if (currentStyle) usedStyleName = currentStyle.title;
+        }
+
+        // 2. 确定使用哪组参考图 (互斥逻辑)
+        const imagesToSend = currentStyle ? activeStyleImages : activeCustomImages;
+
+        setLoading(true);
+        msg(`正在提交生成任务 [${usedStyleName}] 风格PPT...`);
+
+        try {
+          const payload = {
+            model: MODEL,
+            prompt: finalPrompt,
+            aspect_ratio: ui.ratio.value || "16:9",
+            image_size: ui.size.value
+          };
+
+          // 只有当有图片时才加入 payload
+          if (imagesToSend.length > 0) {
+            payload.image = imagesToSend;
+          }
+
+          // 使用异步模式提交请求
+          const res = await fetch(`${ENDPOINT}?async=true`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+            body: JSON.stringify(payload)
+          });
+
+          if (!res.ok) {
+            let errStr = `Error ${res.status}`;
+            try { const j = await res.json(); if (j.error && j.error.message) errStr = j.error.message; } catch (e) { }
+            throw new Error(errStr);
+          }
+
+          const data = await res.json();
+          console.log('Async API Response:', data);
+
+          // 检查是否返回了 task_id
+          if (data.task_id) {
+            const taskId = data.task_id;
+            msg(`任务已提交，正在等待生成结果... (Task ID: ${taskId.slice(0, 8)}...)`);
+
+            // 将任务添加到历史记录
+            addHistoryItem(taskId, 'pending', [], finalPrompt);
+
+            // 开始轮询任务状态
+            try {
+              const result = await pollTaskStatus(taskId, key);
+              if (result.success && result.urls.length > 0) {
+                msg('设计完成');
+                addGallery(result.urls, finalPrompt);
+              } else {
+                throw new Error('未返回有效图片');
+              }
+            } catch (pollErr) {
+              // 轮询失败但任务已记录，用户可以稍后查看历史
+              msg(`${pollErr.message}`, true);
+            }
+          } else if (data.data && data.data.length > 0) {
+            // 兼容同步返回的情况
+            const urls = data.data.map(i => {
+              if (i.url) return fixR2Url(i.url);
+              if (i.b64_json) return 'data:image/png;base64,' + i.b64_json;
+              return null;
+            }).filter(u => u !== null);
+
+            if (urls.length) {
+              msg('设计完成');
+              addGallery(urls, finalPrompt);
+            } else {
+              throw new Error('未返回有效图片');
+            }
+          } else {
+            throw new Error('未返回有效的任务ID或图片数据');
+          }
+        } catch (err) {
+          console.error(err);
+          msg(err.message, true);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      // ================= Utils =================
+      function fixR2Url(url) {
+        if (!url) return ''; // 修复：防止 url 为 undefined 时报错
+        if (!PUBLIC_R2_DOMAIN) return url;
+        try {
+          const u = new URL(url);
+          if (u.hostname.includes('r2.cloudflarestorage.com')) {
+            return PUBLIC_R2_DOMAIN.replace(/\/$/, '') + u.pathname.replace('/bananaproimage/', '/');
+          }
+        } catch (e) { }
+        return url;
       }
 
-      console.log('Task Submitted:', submitData);
-
-      // 获取 Task ID
-      const taskId = submitData.task_id || (submitData.data && submitData.data.task_id);
-      if (!taskId) throw new Error('API 未返回 Task ID');
-
-      // 2. 开始轮询
-      msg('任务已提交，正在生成...');
-      const resultData = await pollTaskResult(taskId, key);
-
-      // 3. 处理结果
-      const urls = (resultData.data || []).map(i => {
-        if(i.url) return fixR2Url(i.url);
-        if(i.b64_json) return 'data:image/png;base64,' + i.b64_json;
-        return null;
-      }).filter(u => u !== null);
-
-      if(urls.length) {
-        msg('生成完成！');
-        addGallery(urls, finalPrompt);
-      } else {
-        throw new Error('任务完成但未返回图片数据');
+      function setLoading(ing) {
+        ui.go.disabled = ing;
+        ui.spin.style.display = ing ? 'block' : 'none';
+        ui.btnText.textContent = ing ? 'AI 绘制中...' : '立即生成';
       }
 
-    } catch(err) {
-      console.error(err);
-      msg(err.message, true);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ================= Utils =================
-  function fixR2Url(url) {
-    if(!url) return ''; // 修复：防止 url 为 undefined 时报错
-    if(!PUBLIC_R2_DOMAIN) return url;
-    try {
-      const u = new URL(url);
-      if(u.hostname.includes('r2.cloudflarestorage.com')) {
-        return PUBLIC_R2_DOMAIN.replace(/\/$/, '') + u.pathname.replace('/bananaproimage/', '/');
+      function msg(text, err = false) {
+        ui.status.textContent = text;
+        ui.status.style.color = err ? '#ff6b6b' : 'var(--accent)';
       }
-    } catch(e){}
-    return url;
-  }
 
-  function setLoading(ing) {
-    ui.go.disabled = ing;
-    ui.spin.style.display = ing ? 'block' : 'none';
-    ui.btnText.textContent = ing ? 'AI 绘制中...' : '立即生成';
-  }
-
-  function msg(text, err=false) {
-    ui.status.textContent = text;
-    ui.status.style.color = err ? '#ff6b6b' : 'var(--accent)';
-  }
-
-  function addGallery(urls, prompt) {
-    const time = new Date().toLocaleTimeString();
-    const html = `
+      function addGallery(urls, prompt) {
+        const time = new Date().toLocaleTimeString();
+        const html = `
       <div class="result-group">
         <div class="result-meta">
           <span>${time}</span>
@@ -849,50 +1625,54 @@
         </div>
       </div>
     `;
-    ui.gallery.insertAdjacentHTML('afterbegin', html);
-  }
+        ui.gallery.insertAdjacentHTML('afterbegin', html);
+      }
 
-  // Lightbox
-  window.viewLarge = (url, showDownload = false) => {
-    lbUrl = url;
-    ui.lbImg.src = url;
-    ui.lb.classList.add('show');
-    ui.lbDownBtn.style.display = showDownload ? 'block' : 'none';
-  };
-  window.closeLightbox = () => ui.lb.classList.remove('show');
-  
-  // ESC 键关闭 Lightbox
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeLightbox();
-  });
+      // Lightbox
+      window.viewLarge = (url, showDownload = false) => {
+        lbUrl = url;
+        ui.lbImg.src = url;
+        ui.lb.classList.add('show');
+        ui.lbDownBtn.style.display = showDownload ? 'block' : 'none';
+      };
+      window.closeLightbox = () => ui.lb.classList.remove('show');
 
-  window.downloadCurrent = () => { if(lbUrl) download(lbUrl); };
-  window.download = async (url) => {
-    try {
-      const res = await fetch(url);
-      const blob = await res.blob();
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `ppt-${Date.now()}.png`;
-      document.body.appendChild(a); a.click(); a.remove();
-    } catch(e) { window.open(url, '_blank'); }
-  };
-  window.copyTxt = (btn, txt) => {
-    navigator.clipboard.writeText(txt);
-    const old = btn.innerText; btn.innerText = '已复制'; setTimeout(() => btn.innerText = old, 1500);
-  };
+      // ESC 键关闭 Lightbox 和 History Modal
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeLightbox();
+          closeHistory();
+        }
+      });
 
-  // Base64 Helpers
-  const fileToBase64 = f => new Promise((r) => { const reader = new FileReader(); reader.onload = () => r(reader.result); reader.readAsDataURL(f); });
-  
-  // URL to Base64 (用于风格参考图)
-  const urlToBase64 = async (url) => {
-    const res = await fetch(url);
-    const blob = await res.blob();
-    return await fileToBase64(blob);
-  };
+      window.downloadCurrent = () => { if (lbUrl) download(lbUrl); };
+      window.download = async (url) => {
+        try {
+          const res = await fetch(url);
+          const blob = await res.blob();
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = `ppt-${Date.now()}.png`;
+          document.body.appendChild(a); a.click(); a.remove();
+        } catch (e) { window.open(url, '_blank'); }
+      };
+      window.copyTxt = (btn, txt) => {
+        navigator.clipboard.writeText(txt);
+        const old = btn.innerText; btn.innerText = '已复制'; setTimeout(() => btn.innerText = old, 1500);
+      };
 
-})();
-</script>
+      // Base64 Helpers
+      const fileToBase64 = f => new Promise((r) => { const reader = new FileReader(); reader.onload = () => r(reader.result); reader.readAsDataURL(f); });
+
+      // URL to Base64 (用于风格参考图)
+      const urlToBase64 = async (url) => {
+        const res = await fetch(url);
+        const blob = await res.blob();
+        return await fileToBase64(blob);
+      };
+
+    })();
+  </script>
 </body>
+
 </html>
